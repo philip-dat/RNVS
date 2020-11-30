@@ -15,12 +15,13 @@
 #include <sys/wait.h>
 #include <signal.h>
 #include <time.h>
+#include <limits.h>
 
 #define BACKLOG 10	 // how many pending connections queue will hold
 
 int countlines(char *filename);
 
-const char *getrandomline(char *filename, int linecounter);
+char *getrandomline(char *filename, int linecounter);
 
 void sigchld_handler(int s)
 {
@@ -122,8 +123,27 @@ int main(int argc, char* argv[])
     printf("server: waiting for connections...\n");
 
     while(1) {  // main accept() loop
+        FILE *fptr = fopen(argv[2], "r");
+        char buffer[512];
 
-        const char* buffer = getrandomline(argv[2], linecounter);
+        if (!fptr) {
+            perror ("File open error!\n");
+            exit(1);
+        }
+
+        //get random number
+        srand(time(0));
+        int randomnr = rand() % (linecounter + 1);
+
+        //get sentence from rnd line number
+        int index = 0;
+        while(fgets(buffer, sizeof(buffer), fptr)) {
+            if(index == randomnr) {
+                break;
+            }
+            index++;
+        }
+        fclose(fptr);
 
         sin_size = sizeof their_addr;
         new_fd = accept(sockfd, (struct sockaddr *)&their_addr, &sin_size);
@@ -144,43 +164,13 @@ int main(int argc, char* argv[])
         }
         close(new_fd);  // parent doesn't need this
     }
-
-    return 0;
-}
-
-const char *getrandomline(char *filename, int linecounter) {
-    FILE *fptr = fopen(filename, "r");
-    char buffer[512];
-
-    if (!fptr) {
-        perror ("File open error!\n");
-        exit(1);
-    }
-
-    //get random number
-    srand(time(0));
-    int randomnr = rand() % (linecounter + 1);
-
-    //get sentence from rnd line number
-    int index = 0;
-    while(fgets(buffer, sizeof(buffer), fptr)) {
-        if(index == randomnr) {
-            break;
-        }
-        index++;
-    }
-    char *returnvalue;
-    strncpy(returnvalue, buffer,sizeof(buffer));
-
-    fclose(fptr);
-    return returnvalue;
 }
 
 int countlines(char *filename) {
     // count the number of lines in the file called filename
     FILE *fp = fopen(filename,"r");
     char buffer[512];
-    int ch=0;
+
     int lines=0;
 
     if (fp == NULL){
@@ -193,7 +183,6 @@ int countlines(char *filename) {
         lines++;
     }
     fclose(fp);
-
 
     if( lines == 0){
         perror("File is empty\n");
