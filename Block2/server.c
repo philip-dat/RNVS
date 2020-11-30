@@ -148,9 +148,11 @@ int main(int argc, char* argv[])
         free(buffer);
     }
 }
+
 char* getrandomline(char  * filename, int linecounter){
     FILE *fptr = fopen(filename, "r");
-    char *buffer = malloc(sizeof(char)* 512);
+    size_t buffer_size = 512;
+    char *buffer = malloc(sizeof(char)* buffer_size);
 
     if (!fptr) {
         perror ("File open error!\n");
@@ -163,7 +165,7 @@ char* getrandomline(char  * filename, int linecounter){
 
     //get sentence from rnd line number
     int index = 0;
-    while(fgets(buffer, sizeof(char) * 512, fptr)) {
+    while(getline(&buffer, &buffer_size, fptr)) {
         if(index == randomnr) {
             break;
         }
