@@ -1,0 +1,4 @@
+/Users/Chrissi/Documents/Bildung/Uni/2021_wise/rnvs/Block2/build/CMakeFiles/rebuild_cache.dir
+/Users/Chrissi/Documents/Bildung/Uni/2021_wise/rnvs/Block2/build/CMakeFiles/edit_cache.dir
+/Users/Chrissi/Documents/Bildung/Uni/2021_wise/rnvs/Block2/build/CMakeFiles/server.dir
+/Users/Chrissi/Documents/Bildung/Uni/2021_wise/rnvs/Block2/build/CMakeFiles/client.dir
