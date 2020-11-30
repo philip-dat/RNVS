@@ -165,7 +165,7 @@ char* getrandomline(char  * filename, int linecounter){
 
     //get sentence from rnd line number
     int index = 0;
-    while(getline(&buffer, &buffer_size, fptr)) {
+    while(fgets(buffer, sizeof(char) * buffer_size, fptr)) {
         if(index == randomnr) {
             break;
         }
