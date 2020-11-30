@@ -7,6 +7,7 @@
 #include <unistd.h>
 #include <errno.h>
 #include <string.h>
+#include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <netdb.h>
@@ -67,7 +68,9 @@ int main(int argc, char* argv[])
     hints.ai_flags = AI_PASSIVE; // use my IP
 
     char* PORT = argv[1];
-    
+
+    int linecounter = countlines(argv[2]);
+
     if ((rv = getaddrinfo(NULL, PORT, &hints, &servinfo)) != 0) {
         fprintf(stderr, "getaddrinfo: %s\n", gai_strerror(rv));
         return 1;
@@ -120,7 +123,7 @@ int main(int argc, char* argv[])
 
     while(1) {  // main accept() loop
 
-        const char* buffer = getrandomline(argv[1], linecounter);
+        const char* buffer = getrandomline(argv[2], linecounter);
 
         sin_size = sizeof their_addr;
         new_fd = accept(sockfd, (struct sockaddr *)&their_addr, &sin_size);
@@ -147,7 +150,7 @@ int main(int argc, char* argv[])
 
 const char *getrandomline(char *filename, int linecounter) {
     FILE *fptr = fopen(filename, "r");
-    char* buffer[512];
+    char buffer[512];
 
     if (!fptr) {
         perror ("File open error!\n");
@@ -166,15 +169,18 @@ const char *getrandomline(char *filename, int linecounter) {
         }
         index++;
     }
-    fclose(fptr);
+    char *returnvalue;
+    strncpy(returnvalue, buffer,sizeof(buffer));
 
-    return buffer;
+    fclose(fptr);
+    return returnvalue;
 }
 
 int countlines(char *filename) {
     // count the number of lines in the file called filename
     FILE *fp = fopen(filename,"r");
     char buffer[512];
+    int ch=0;
     int lines=0;
 
     if (fp == NULL){
