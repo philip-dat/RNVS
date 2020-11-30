@@ -123,27 +123,8 @@ int main(int argc, char* argv[])
     printf("server: waiting for connections...\n");
 
     while(1) {  // main accept() loop
-        FILE *fptr = fopen(argv[2], "r");
-        char buffer[512];
 
-        if (!fptr) {
-            perror ("File open error!\n");
-            exit(1);
-        }
-
-        //get random number
-        srand(time(0));
-        int randomnr = rand() % (linecounter + 1);
-
-        //get sentence from rnd line number
-        int index = 0;
-        while(fgets(buffer, sizeof(buffer), fptr)) {
-            if(index == randomnr) {
-                break;
-            }
-            index++;
-        }
-        fclose(fptr);
+        char* buffer = getrandomline(argv[2], linecounter);
 
         sin_size = sizeof their_addr;
         new_fd = accept(sockfd, (struct sockaddr *)&their_addr, &sin_size);
@@ -157,14 +138,42 @@ int main(int argc, char* argv[])
                   s, sizeof s);
         printf("server: got connection from %s\n", s);
 
-        if (send(new_fd, buffer, sizeof(buffer), 0) == -1) {
+        if (send(new_fd, buffer, sizeof(char) * 512, 0) == -1) {
             perror("send");
             close(new_fd);
+            free(buffer);
             exit(0);
         }
-        close(new_fd);  // parent doesn't need this
+        close(new_fd); // parent doesn't need this
+        free(buffer);
     }
 }
+char* getrandomline(char  * filename, int linecounter){
+    FILE *fptr = fopen(filename, "r");
+    char *buffer = malloc(sizeof(char)* 512);
+
+    if (!fptr) {
+        perror ("File open error!\n");
+        exit(1);
+    }
+
+    //get random number
+    srand(time(0));
+    int randomnr = rand() % (linecounter + 1);
+
+    //get sentence from rnd line number
+    int index = 0;
+    while(fgets(buffer, sizeof(char) * 512, fptr)) {
+        if(index == randomnr) {
+            break;
+        }
+        index++;
+    }
+    fclose(fptr);
+
+    return buffer;
+}
+
 
 int countlines(char *filename) {
     // count the number of lines in the file called filename
@@ -188,6 +197,5 @@ int countlines(char *filename) {
         perror("File is empty\n");
         exit(1);
     }
-
     return lines;
 }
