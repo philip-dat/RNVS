@@ -7,7 +7,6 @@
 #include <unistd.h>
 #include <errno.h>
 #include <string.h>
-#include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <netdb.h>
@@ -15,13 +14,12 @@
 #include <sys/wait.h>
 #include <signal.h>
 #include <time.h>
-#include <limits.h>
 
 #define BACKLOG 10	 // how many pending connections queue will hold
 
 int countlines(char *filename);
 
-char *getrandomline(char *filename, int linecounter);
+const char *getrandomline(char *filename, int linecounter);
 
 void sigchld_handler(int s)
 {
@@ -69,9 +67,7 @@ int main(int argc, char* argv[])
     hints.ai_flags = AI_PASSIVE; // use my IP
 
     char* PORT = argv[1];
-
     int linecounter = countlines(argv[2]);
-
     if ((rv = getaddrinfo(NULL, PORT, &hints, &servinfo)) != 0) {
         fprintf(stderr, "getaddrinfo: %s\n", gai_strerror(rv));
         return 1;
@@ -124,7 +120,7 @@ int main(int argc, char* argv[])
 
     while(1) {  // main accept() loop
 
-        char* buffer = getrandomline(argv[2], linecounter);
+        const char* buffer = getrandomline(argv[1], linecounter);
 
         sin_size = sizeof their_addr;
         new_fd = accept(sockfd, (struct sockaddr *)&their_addr, &sin_size);
@@ -138,21 +134,20 @@ int main(int argc, char* argv[])
                   s, sizeof s);
         printf("server: got connection from %s\n", s);
 
-        if (send(new_fd, buffer, sizeof(char) * 512, 0) == -1) {
+        if (send(new_fd, buffer, sizeof(buffer), 0) == -1) {
             perror("send");
             close(new_fd);
-            free(buffer);
             exit(0);
         }
-        close(new_fd); // parent doesn't need this
-        free(buffer);
+        close(new_fd);  // parent doesn't need this
     }
+
+    return 0;
 }
 
-char* getrandomline(char  * filename, int linecounter){
+const char *getrandomline(char *filename, int linecounter) {
     FILE *fptr = fopen(filename, "r");
-    size_t buffer_size = 512;
-    char *buffer = malloc(sizeof(char)* buffer_size);
+    char* buffer[512];
 
     if (!fptr) {
         perror ("File open error!\n");
@@ -165,7 +160,7 @@ char* getrandomline(char  * filename, int linecounter){
 
     //get sentence from rnd line number
     int index = 0;
-    while(fgets(buffer, sizeof(char) * buffer_size, fptr)) {
+    while(fgets(buffer, sizeof(buffer), fptr)) {
         if(index == randomnr) {
             break;
         }
@@ -176,12 +171,10 @@ char* getrandomline(char  * filename, int linecounter){
     return buffer;
 }
 
-
 int countlines(char *filename) {
     // count the number of lines in the file called filename
     FILE *fp = fopen(filename,"r");
     char buffer[512];
-
     int lines=0;
 
     if (fp == NULL){
@@ -195,9 +188,11 @@ int countlines(char *filename) {
     }
     fclose(fp);
 
+
     if( lines == 0){
         perror("File is empty\n");
         exit(1);
     }
+
     return lines;
 }

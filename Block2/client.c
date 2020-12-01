@@ -93,7 +93,7 @@ int main(int argc, char *argv[])
         }
     }
 
-    printf("'/0");
+    printf("'");
 
     //close connection via socket
     close(sockfd);

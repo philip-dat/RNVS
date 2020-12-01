@@ -10,6 +10,18 @@
 -- Build files have been written to: /mnt/src/build
 Scanning dependencies of target server
 [ 25%] Building C object CMakeFiles/server.dir/server.c.o
+/mnt/src/server.c: In function 'getrandomline':
+/mnt/src/server.c:163:17: warning: passing argument 1 of 'fgets' from incompatible pointer type [-Wincompatible-pointer-types]
+     while(fgets(buffer, sizeof(buffer), fptr)) {
+                 ^
+In file included from /mnt/src/server.c:5:0:
+/usr/include/stdio.h:622:14: note: expected 'char * restrict' but argument is of type 'char **'
+ extern char *fgets (char *__restrict __s, int __n, FILE *__restrict __stream)
+              ^
+/mnt/src/server.c:171:12: warning: return from incompatible pointer type [-Wincompatible-pointer-types]
+     return buffer;
+            ^
+/mnt/src/server.c:171:12: warning: function returns address of local variable [-Wreturn-local-addr]
 [ 50%] Linking C executable server
 [ 50%] Built target server
 Scanning dependencies of target client
