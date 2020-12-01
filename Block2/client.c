@@ -78,6 +78,8 @@ int main(int argc, char *argv[])
     freeaddrinfo(servinfo); // all done with this structure
 
     //save received message
+
+    printf("client: received: '");
     int data_length = MAXDATASIZE-1;
     char chunk[MAXDATASIZE-1];
 
@@ -90,6 +92,8 @@ int main(int argc, char *argv[])
             printf("%s", chunk);
         }
     }
+
+    printf("'/0");
 
     //close connection via socket
     close(sockfd);

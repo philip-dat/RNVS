@@ -1,0 +1,87 @@
+.
+----------------------------------------------------------------------
+Ran 1 test in 1.682s
+
+OK
+FFFFFFF
+======================================================================
+FAIL: test_basic (rnvs_tb.blocks.block2.QOTDClientTestCase)
+Test clients ability to return a simple quote with no special cases except for a newline.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.6/dist-packages/rnvs_tb/common.py", line 32, in log_wrapper
+    return fun(*args, **kwargs)
+  File "/usr/local/lib/python3.6/dist-packages/rnvs_tb/blocks/block2.py", line 307, in test_basic
+    self.assertIsNotNone(pattern.fullmatch(out), msg=f'Client returned quote in unacceptable form: {out}')
+AssertionError: unexpectedly None : Client returned quote in unacceptable form: bytearray(b'client: connecting to 172.20.0.3\nLorem Ipsum dolor sit amet\n')
+
+======================================================================
+FAIL: test_basic_but_exact (rnvs_tb.blocks.block2.QOTDClientTestCase)
+Essentially the same test as test_basic but with exact string matching of the quote.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.6/dist-packages/rnvs_tb/common.py", line 32, in log_wrapper
+    return fun(*args, **kwargs)
+  File "/usr/local/lib/python3.6/dist-packages/rnvs_tb/blocks/block2.py", line 328, in test_basic_but_exact
+    self.assertIsNotNone(pattern.fullmatch(out), msg=f'Client returned quote that does not match: {out}')
+AssertionError: unexpectedly None : Client returned quote that does not match: bytearray(b'client: connecting to 172.20.0.3\nLorem Ipsum dolor sit amet\n')
+
+======================================================================
+FAIL: test_long_quote (rnvs_tb.blocks.block2.QOTDClientTestCase)
+Test clients ability to retrieve an overly long quote.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.6/dist-packages/rnvs_tb/common.py", line 32, in log_wrapper
+    return fun(*args, **kwargs)
+  File "/usr/local/lib/python3.6/dist-packages/rnvs_tb/blocks/block2.py", line 365, in test_long_quote
+    self.assertEqual(quote, out, msg='Stdout differs from sent quote!')
+AssertionError: b'Lorem Ipsum dolor sit amet\nLorem Ipsum [4212 chars]et\n' != bytearray(b'client: connecting to 172.20.0[4257 chars]t\n') : Stdout differs from sent quote!
+
+======================================================================
+FAIL: test_special_characters (rnvs_tb.blocks.block2.QOTDClientTestCase)
+Test clients ability to correctly output nullbytes to stdout.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.6/dist-packages/rnvs_tb/common.py", line 32, in log_wrapper
+    return fun(*args, **kwargs)
+  File "/usr/local/lib/python3.6/dist-packages/rnvs_tb/blocks/block2.py", line 405, in test_special_characters
+    self.assertIsNotNone(pattern.fullmatch(out), msg=f'Client returned quote that does not match: {out}')
+AssertionError: unexpectedly None : Client returned quote that does not match: bytearray(b'client: connecting to 172.20.0.3\nThis quote contains a \n as well as ')
+
+======================================================================
+FAIL: test_long_quote (rnvs_tb.blocks.block2.QOTDServerTestCase)
+Test the servers handling of arbitrarily long quotes.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.6/dist-packages/rnvs_tb/common.py", line 32, in log_wrapper
+    return fun(*args, **kwargs)
+  File "/usr/local/lib/python3.6/dist-packages/rnvs_tb/blocks/block2.py", line 221, in test_long_quote
+    msg='Server returned incorrect quote ({})!'.format(self.reply))
+AssertionError: unexpectedly None : Server returned incorrect quote (b'tive...This quote is veeeery repetitive...This quote is veeeery repetitive...This quote is veeeery repetitive...This quote is veeeery repetitive...This quote is veeeery repetitive...This quote is veeeery repetitive...This quote is veeeery repetitive...This quote is veeeery repetitive...This quote is veeeery repetitive...This quote is veeeery repetitive...This quote is veeeery repetitive...This quote is veeeery repetitive...This quote is veeeery repetitive...This quote is veeeery repetitive...This quote is \x00')!
+
+======================================================================
+FAIL: test_null_characters (rnvs_tb.blocks.block2.QOTDServerTestCase)
+Test the servers handling of special characters like a null byte.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.6/dist-packages/rnvs_tb/common.py", line 32, in log_wrapper
+    return fun(*args, **kwargs)
+  File "/usr/local/lib/python3.6/dist-packages/rnvs_tb/blocks/block2.py", line 172, in test_null_characters
+    msg='Server returned incorrect quote ({})!'.format(self.reply))
+AssertionError: unexpectedly None : Server returned incorrect quote (b'This quote contains a \x00 byte.\n\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00')!
+
+======================================================================
+FAIL: test_one_line (rnvs_tb.blocks.block2.QOTDServerTestCase)
+Test the servers ability to serve a simple quote from a file, while accepting extra newline and null bytes.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.6/dist-packages/rnvs_tb/common.py", line 32, in log_wrapper
+    return fun(*args, **kwargs)
+  File "/usr/local/lib/python3.6/dist-packages/rnvs_tb/blocks/block2.py", line 122, in test_one_line
+    msg='Server returned incorrect quote ({})!'.format(self.reply))
+AssertionError: unexpectedly None : Server returned incorrect quote (b'Lorem Ipsum dolor sit amet\n\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00')!
+
+----------------------------------------------------------------------
+Ran 7 tests in 17.386s
+
+FAILED (failures=7)
