@@ -81,7 +81,15 @@ int main(int argc, char *argv[])
             fprintf(stderr, "recv");
             exit(1);
         } else {
-            printf("%s", chunk);
+            if (data_length > 0){
+                for(int c=0;c<data_length; c++){
+                    if(chunk[c]=='\0'){
+                        printf("\%c", chunk[c]);
+                    } else{
+                        printf("%c",chunk[c]);
+                    }
+                }
+            }
         }
     }
     //close connection via socket
