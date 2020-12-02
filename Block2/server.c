@@ -124,7 +124,6 @@ int main(int argc, char* argv[])
     int linecounter = countlines(argv[2]);
 
     while(1) {  // main accept() loop
-
         char* buffer = getrandomline(argv[2], linecounter);
         size_t len = strlen(buffer);
 
@@ -199,7 +198,7 @@ int countlines(char *filename) {
     }
 
     lines++;
-    while(getline(&buffer, &buffer_size, fp)) {
+    while(getline(&buffer, &buffer_size, fp) > 0) {
         if(strchr(buffer, '\n')) {
             lines++;
         }

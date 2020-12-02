@@ -69,17 +69,10 @@ int main(int argc, char *argv[])
         return 2;
     }
 
-    //turns socket address in human readable string
-    inet_ntop(p->ai_family, get_in_addr((struct sockaddr *)p->ai_addr),
-              s, sizeof s);
-    printf("client: connecting to %s\n", s);
-
     //free memory of server struct
     freeaddrinfo(servinfo); // all done with this structure
 
     //save received message
-
-    printf("client: received: '");
     int data_length = MAXDATASIZE-1;
     char chunk[MAXDATASIZE-1];
 
@@ -92,9 +85,6 @@ int main(int argc, char *argv[])
             printf("%s", chunk);
         }
     }
-
-    printf("'");
-
     //close connection via socket
     close(sockfd);
 
