@@ -27,7 +27,6 @@ int main(int argc, char *argv[])
     int sockfd;
     struct addrinfo hints, *servinfo, *p;
     int rv;
-    char s[INET6_ADDRSTRLEN];
 
     if (argc != 3) {
         fprintf(stderr,"usage: hostname/IP Port\n");
@@ -49,14 +48,14 @@ int main(int argc, char *argv[])
         //creates socket
         if ((sockfd = socket(p->ai_family, p->ai_socktype,
                              p->ai_protocol)) == -1) {
-            perror("client: socket");
+            fprintf(stderr,"client: socket");
             continue;
         }
 
         //connects to this socket
         if (connect(sockfd, p->ai_addr, p->ai_addrlen) == -1) {
             close(sockfd);
-            perror("client: connect");
+            fprintf(stderr, "client: connect");
             continue;
         }
 
@@ -79,7 +78,7 @@ int main(int argc, char *argv[])
     while(data_length == MAXDATASIZE-1) {
         memset(chunk, 0, MAXDATASIZE-1);
         if ((data_length = recv(sockfd,  chunk, MAXDATASIZE-1, 0)) == -1) {
-            perror("recv");
+            fprintf(stderr, "recv");
             exit(1);
         } else {
             printf("%s", chunk);
