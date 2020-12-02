@@ -85,7 +85,7 @@ int main(int argc, char *argv[])
 
     while(data_length == MAXDATASIZE-1) {
         memset(chunk, 0, MAXDATASIZE-1);
-        if ((data_length = recv(sockfd, chunk, MAXDATASIZE-1, 0)) == -1) {
+        if ((data_length = recv(sockfd,  chunk, MAXDATASIZE-1, 0)) == -1) {
             perror("recv");
             exit(1);
         } else {
