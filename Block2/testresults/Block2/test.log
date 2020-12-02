@@ -1,6 +1,6 @@
 .
 ----------------------------------------------------------------------
-Ran 1 test in 1.629s
+Ran 1 test in 1.463s
 
 OK
 ....FFF
@@ -22,9 +22,9 @@ Test the servers handling of special characters like a null byte.
 Traceback (most recent call last):
   File "/usr/local/lib/python3.6/dist-packages/rnvs_tb/common.py", line 32, in log_wrapper
     return fun(*args, **kwargs)
-  File "/usr/local/lib/python3.6/dist-packages/rnvs_tb/blocks/block2.py", line 165, in test_null_characters
-    self.assertTrue(connected, msg='Client could not connect to server!')
-AssertionError: False is not true : Client could not connect to server!
+  File "/usr/local/lib/python3.6/dist-packages/rnvs_tb/blocks/block2.py", line 169, in test_null_characters
+    msg='No response from server received in time!')
+AssertionError: False is not true : No response from server received in time!
 
 ======================================================================
 FAIL: test_one_line (rnvs_tb.blocks.block2.QOTDServerTestCase)
@@ -33,11 +33,11 @@ Test the servers ability to serve a simple quote from a file, while accepting ex
 Traceback (most recent call last):
   File "/usr/local/lib/python3.6/dist-packages/rnvs_tb/common.py", line 32, in log_wrapper
     return fun(*args, **kwargs)
-  File "/usr/local/lib/python3.6/dist-packages/rnvs_tb/blocks/block2.py", line 105, in test_one_line
-    self.assertTrue(ready, msg=f'Server did not open port 17 within {self.startupTimeout} seconds after starting')
-AssertionError: False is not true : Server did not open port 17 within 3.0 seconds after starting
+  File "/usr/local/lib/python3.6/dist-packages/rnvs_tb/blocks/block2.py", line 113, in test_one_line
+    self.assertTrue(connected, msg=f'Client could not connect to server! Stdout: {out} Stderr: {err}')
+AssertionError: False is not true : Client could not connect to server! Stdout: bytearray(b'') Stderr: bytearray(b'')
 
 ----------------------------------------------------------------------
-Ran 7 tests in 23.501s
+Ran 7 tests in 27.716s
 
 FAILED (failures=3)

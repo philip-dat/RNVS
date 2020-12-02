@@ -20,7 +20,7 @@
 #define BACKLOG 10	 // how many pending connections queue will hold
 
 
-char *getrandomline(char *filename, int linecounter, size_t doclen);
+char *getrandomline(char *filename, int linecounter, ssize_t doclen);
 
 void sigchld_handler(int s)
 {
@@ -46,7 +46,8 @@ void *get_in_addr(struct sockaddr *sa)
 }
 
 struct linesnddoclen{
-    int lines, doclen;
+    int lines;
+    ssize_t doclen;
 };
 
 typedef struct linesnddoclen Struct;
@@ -87,19 +88,19 @@ int main(int argc, char* argv[])
     for(p = servinfo; p != NULL; p = p->ai_next) {
         if ((sockfd = socket(p->ai_family, p->ai_socktype,
                              p->ai_protocol)) == -1) {
-            perror("server: socket");
+            fprintf(stderr,"server: socket");
             continue;
         }
 
         if (setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, &yes,
                        sizeof(int)) == -1) {
-            perror("setsockopt");
+            fprintf(stderr,"setsockopt");
             exit(1);
         }
 
         if (bind(sockfd, p->ai_addr, p->ai_addrlen) == -1) {
             close(sockfd);
-            perror("server: bind");
+            fprintf(stderr,"server: bind");
             continue;
         }
 
@@ -114,7 +115,7 @@ int main(int argc, char* argv[])
     }
 
     if (listen(sockfd, BACKLOG) == -1) {
-        perror("listen");
+        fprintf(stderr,"listen");
         exit(1);
     }
 
@@ -122,14 +123,13 @@ int main(int argc, char* argv[])
     sigemptyset(&sa.sa_mask);
     sa.sa_flags = SA_RESTART;
     if (sigaction(SIGCHLD, &sa, NULL) == -1) {
-        perror("sigaction");
+        fprintf(stderr,"sigaction");
         exit(1);
     }
 
-    printf("server: waiting for connections...\n");
-    Struct lennlines = countlines(argv[2]);
-    size_t doclen = lennlines.doclen;
-    int linecounter = lennlines.lines;
+    Struct lenNlines = countlines(argv[2]);
+    ssize_t doclen = lenNlines.doclen;
+    int linecounter = lenNlines.lines;
 
     while(1) {  // main accept() loop
         char* buffer = getrandomline(argv[2], linecounter, doclen);
@@ -138,17 +138,16 @@ int main(int argc, char* argv[])
         sin_size = sizeof their_addr;
         new_fd = accept(sockfd, (struct sockaddr *)&their_addr, &sin_size);
         if (new_fd == -1) {
-            perror("accept");
+            fprintf(stderr,"accept");
             continue;
         }
 
         inet_ntop(their_addr.ss_family,
                   get_in_addr((struct sockaddr *)&their_addr),
                   s, sizeof s);
-        printf("server: got connection from %s\n", s);
 
         if (send(new_fd, buffer, len, 0) == -1) {
-            perror("send");
+            fprintf(stderr, "send");
             close(new_fd);
             free(buffer);
             exit(0);
@@ -158,7 +157,7 @@ int main(int argc, char* argv[])
     }
 }
 
-char* getrandomline(char  * filename, int linecounter, size_t doclen){
+char* getrandomline(char  * filename, int linecounter, ssize_t doclen){
     FILE *fptr = fopen(filename, "r");
     size_t buffer_size = 0;
     char *buffer = NULL;
@@ -171,30 +170,31 @@ char* getrandomline(char  * filename, int linecounter, size_t doclen){
     //get random number
     srand(time(0));
     int randomnr = rand() % (linecounter + 1);
-    //for testing:
 
-    randomnr = 7;
     //get sentence from rnd line number
     int index = 0;
     ssize_t len = 0;
     char *concatstring = malloc(doclen * sizeof(char));
+
     while((len = getline(&buffer, &buffer_size, fptr)) > 0) {
         if(index == randomnr) {
             strcpy(concatstring, buffer);
             while(!strchr(buffer,'\n')){
+                buffer = NULL;
                 len += getline(&buffer, &buffer_size, fptr);
                 strcat(concatstring, buffer);
             }
             break;
         }
+        buffer = NULL;
         index++;
     }
     free(buffer);
 
     fclose(fptr);
     char *buffer_no_lf = malloc(sizeof(char) * len - 1);
-    strncpy(buffer_no_lf, concatstring, len -1);
-    buffer_no_lf[len-1] = '\0';
+    strncpy(buffer_no_lf, concatstring, len - 1);
+    buffer_no_lf[len - 1] = '\0';
     free(concatstring);
     return buffer_no_lf;
 }
@@ -214,18 +214,22 @@ Struct countlines(char *filename) {
     }
 
     lines++;
-    size_t len = 0;
-    while((len += getline(&buffer, &buffer_size, fp)) > 0) {
+    ssize_t doclen = 0;
+    ssize_t len = 0;
+    while((len = getline(&buffer, &buffer_size, fp)) > 0) {
+        doclen += len;
         if(strchr(buffer, '\n')) {
             lines++;
         }
+        buffer = NULL;
     }
+
     fclose(fp);
     free(buffer);
 
     Struct s;
     s.lines = lines;
-    s.doclen = len;
+    s.doclen = doclen;
 
 
     if( lines == 0){
