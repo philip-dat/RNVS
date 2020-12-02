@@ -1,4 +1,4 @@
-It is not in the stars to hold our destiny but in ourselves.|William Shakespeare Good artists copy, great artists steal.|Pablo Picasso The time is always right to do what is right.|Martin Luther King Be the change that you wish to see in the world.|Mahatma Gandhi Integrity is doing the right thing, even when no one is watching.|C. S. Lewis
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. SteIt is not in the stars to hold our destiny but in ourselves.|William Shakespeare Good artists copy, great artists steal.|Pablo Picasso The time is always right to do what is right.|Martin Luther King Be the change that you wish to see in the world.|Mahatma Gandhi Integrity is doing the right thing, even when no one is watching.|C. S. Lewis
 An eye for an eye will only make the whole world blind.|Mahatma Gandhi
 Out of difficulties grow miracles.|Jean de la Bruyere
 The journey of a t\0housand miles begins with one step.|Lao Tzu
@@ -25,5 +25,4 @@ If you don’t stand for something, you’ll fall for anything.|Alexander Hamilt
 Choose a job you love, and you will never have to work a day in your life.|Confucius
 Freedom lies in being bold.|Robert Frost
 Life is a dream for the w\0ise, a game for the fool, a comedy for the rich, a tragedy for the poor.|Sholom Aleichem
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Ste
-Bran thought about it. 'Can a man still be brave if he's afraid?'.\0 'That is the only time a man can be brave,' his father told him.|George R. R. Martin, Game of Thrones
+

@@ -174,15 +174,15 @@ char* getrandomline(char  * filename, int linecounter, ssize_t doclen){
     //get sentence from rnd line number
     int index = 0;
     ssize_t len = 0;
-    char *concatstring = malloc(doclen * sizeof(char));
+    char *concatstring = calloc(doclen, sizeof(char));
 
     while((len = getline(&buffer, &buffer_size, fptr)) > 0) {
         if(index == randomnr) {
-            strcpy(concatstring, buffer);
+            memcpy(concatstring, buffer, buffer_size);
             while(!strchr(buffer,'\n')){
                 buffer = NULL;
                 len += getline(&buffer, &buffer_size, fptr);
-                strcat(concatstring, buffer);
+                snprintf(concatstring,doclen * sizeof (char), "%s",buffer);
             }
             break;
         }
@@ -192,8 +192,8 @@ char* getrandomline(char  * filename, int linecounter, ssize_t doclen){
     free(buffer);
 
     fclose(fptr);
-    char *buffer_no_lf = malloc(sizeof(char) * len - 1);
-    strncpy(buffer_no_lf, concatstring, len - 1);
+    char *buffer_no_lf = calloc(len,sizeof(char));
+    memcpy(buffer_no_lf, concatstring, len - 1);
     buffer_no_lf[len - 1] = '\0';
     free(concatstring);
     return buffer_no_lf;
@@ -230,7 +230,6 @@ Struct countlines(char *filename) {
     Struct s;
     s.lines = lines;
     s.doclen = doclen;
-
 
     if( lines == 0){
         perror("File is empty or no LF in file\n");
