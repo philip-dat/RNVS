@@ -1,2 +1,2 @@
 group,Compiled,rnvs_tb.blocks.block2.QOTDClientTestCase.test_basic,rnvs_tb.blocks.block2.QOTDClientTestCase.test_basic_but_exact,rnvs_tb.blocks.block2.QOTDClientTestCase.test_long_quote,rnvs_tb.blocks.block2.QOTDClientTestCase.test_special_characters,rnvs_tb.blocks.block2.QOTDServerTestCase.test_long_quote,rnvs_tb.blocks.block2.QOTDServerTestCase.test_null_characters,rnvs_tb.blocks.block2.QOTDServerTestCase.test_one_line
-Block2,o,o,o,o,x,x,x,o
+Block2,o,o,o,o,x,o,x,x
