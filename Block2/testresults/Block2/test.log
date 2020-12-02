@@ -1,9 +1,9 @@
 .
 ----------------------------------------------------------------------
-Ran 1 test in 1.773s
+Ran 1 test in 1.680s
 
 OK
-...F.FF
+...FFFF
 ======================================================================
 FAIL: test_special_characters (rnvs_tb.blocks.block2.QOTDClientTestCase)
 Test clients ability to correctly output nullbytes to stdout.
@@ -13,7 +13,18 @@ Traceback (most recent call last):
     return fun(*args, **kwargs)
   File "/usr/local/lib/python3.6/dist-packages/rnvs_tb/blocks/block2.py", line 405, in test_special_characters
     self.assertIsNotNone(pattern.fullmatch(out), msg=f'Client returned quote that does not match: {out}')
-AssertionError: unexpectedly None : Client returned quote that does not match: bytearray(b'This quote contains a \n as well as  byte!')
+AssertionError: unexpectedly None : Client returned quote that does not match: bytearray(b'This quote contains a \n as well as ')
+
+======================================================================
+FAIL: test_long_quote (rnvs_tb.blocks.block2.QOTDServerTestCase)
+Test the servers handling of arbitrarily long quotes.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.6/dist-packages/rnvs_tb/common.py", line 32, in log_wrapper
+    return fun(*args, **kwargs)
+  File "/usr/local/lib/python3.6/dist-packages/rnvs_tb/blocks/block2.py", line 215, in test_long_quote
+    self.assertTrue(connected, msg='Client could not connect to server!')
+AssertionError: False is not true : Client could not connect to server!
 
 ======================================================================
 FAIL: test_null_characters (rnvs_tb.blocks.block2.QOTDServerTestCase)
@@ -22,9 +33,9 @@ Test the servers handling of special characters like a null byte.
 Traceback (most recent call last):
   File "/usr/local/lib/python3.6/dist-packages/rnvs_tb/common.py", line 32, in log_wrapper
     return fun(*args, **kwargs)
-  File "/usr/local/lib/python3.6/dist-packages/rnvs_tb/blocks/block2.py", line 169, in test_null_characters
-    msg='No response from server received in time!')
-AssertionError: False is not true : No response from server received in time!
+  File "/usr/local/lib/python3.6/dist-packages/rnvs_tb/blocks/block2.py", line 172, in test_null_characters
+    msg='Server returned incorrect quote ({})!'.format(self.reply))
+AssertionError: unexpectedly None : Server returned incorrect quote (b'This quote contains a ')!
 
 ======================================================================
 FAIL: test_one_line (rnvs_tb.blocks.block2.QOTDServerTestCase)
@@ -38,6 +49,6 @@ Traceback (most recent call last):
 AssertionError: False is not true : Server did not open port 17 within 3.0 seconds after starting
 
 ----------------------------------------------------------------------
-Ran 7 tests in 21.755s
+Ran 7 tests in 21.510s
 
-FAILED (failures=3)
+FAILED (failures=4)
