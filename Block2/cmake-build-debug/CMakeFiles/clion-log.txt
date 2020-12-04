@@ -1,4 +1,4 @@
-/snap/clion/135/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /home/tkn/Documents/DEVL/RNVS/Block2
+/snap/clion/137/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /home/tkn/Documents/DEVL/RNVS/Block2
 -- The C compiler identification is GNU 7.5.0
 -- Check for working C compiler: /usr/bin/cc
 -- Check for working C compiler: /usr/bin/cc - works

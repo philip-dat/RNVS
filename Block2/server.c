@@ -7,7 +7,6 @@
 #include <unistd.h>
 #include <errno.h>
 #include <string.h>
-#include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <netdb.h>
@@ -15,12 +14,48 @@
 #include <sys/wait.h>
 #include <signal.h>
 #include <time.h>
-#include <limits.h>
 
 #define BACKLOG 10	 // how many pending connections queue will hold
 
+char* getrandomline(char  * filename, int linecounter){
+    FILE *fptr = fopen(filename, "r");
+    size_t buffer_size = 0;
+    char *buffer = NULL;
 
-char *getrandomline(char *filename, int linecounter, ssize_t doclen);
+    if (!fptr) {
+        perror ("File open error!\n");
+        exit(1);
+    }
+
+    //get random number
+    srand(time(0));
+    int randomnr = rand() % (linecounter);
+
+    //get sentence from rnd line number
+    int index = 0;
+    ssize_t len;
+
+    char *concatstring = NULL;
+    while((len = getline(&buffer, &buffer_size, fptr)) > 0) {
+        if(index == randomnr) {
+            concatstring = calloc(buffer_size, sizeof(char));
+            memcpy(concatstring, buffer, buffer_size);
+            while(!strchr(buffer,'\n')){
+                buffer = NULL;
+                len += getline(&buffer, &buffer_size, fptr);
+                concatstring = realloc(concatstring,len * sizeof(char));
+                snprintf(concatstring,len * sizeof (char), "%s",buffer);
+            }
+            break;
+        }
+        buffer = NULL;
+        index++;
+    }
+    free(buffer);
+
+    fclose(fptr);
+    return concatstring;
+}
 
 void sigchld_handler(int s)
 {
@@ -45,14 +80,36 @@ void *get_in_addr(struct sockaddr *sa)
     return &(((struct sockaddr_in6*)sa)->sin6_addr);
 }
 
-struct linesnddoclen{
-    int lines;
-    ssize_t doclen;
-};
+int countlines(char *filename) {
+    // count the number of lines in the file called filename
+    FILE *fp = fopen(filename,"r");
+    char *buffer = NULL;
+    size_t buffer_size = 0;
 
-typedef struct linesnddoclen Struct;
+    int lines=0;
 
-Struct countlines(char *filename);
+    if (fp == NULL){
+        perror("File open error or empty file\n");
+        exit(1);
+    }
+
+    lines++;
+    while((getline(&buffer, &buffer_size, fp)) > 0) {
+        if(strchr(buffer, '\n')) {
+            lines++;
+        }
+        buffer = NULL;
+    }
+
+    fclose(fp);
+    free(buffer);
+
+    if( lines == 0){
+        perror("File is empty or no LF in file\n");
+        exit(1);
+    }
+    return lines;
+}
 
 int main(int argc, char* argv[])
 {
@@ -128,13 +185,11 @@ int main(int argc, char* argv[])
     }
 
     printf("server: waiting for connections...\n");
-    Struct lenNlines = countlines(argv[2]);
-    ssize_t doclen = lenNlines.doclen;
-    int linecounter = lenNlines.lines;
+    int linecounter = countlines(argv[2]);
 
     while(1) {  // main accept() loop
-        char* buffer = getrandomline(argv[2], linecounter, doclen);
-        size_t len = strlen(buffer);
+        char* buffer = getrandomline(argv[2], linecounter);
+        size_t len = strlen(buffer) - 1;
 
         sin_size = sizeof their_addr;
         new_fd = accept(sockfd, (struct sockaddr *)&their_addr, &sin_size);
@@ -142,6 +197,8 @@ int main(int argc, char* argv[])
             perror("accept");
             continue;
         }
+
+
 
         inet_ntop(their_addr.ss_family,
                   get_in_addr((struct sockaddr *)&their_addr),
@@ -157,86 +214,4 @@ int main(int argc, char* argv[])
         close(new_fd); // parent doesn't need this
         free(buffer);
     }
-}
-
-char* getrandomline(char  * filename, int linecounter, ssize_t doclen){
-    FILE *fptr = fopen(filename, "r");
-    size_t buffer_size = 0;
-    char *buffer = NULL;
-
-    if (!fptr) {
-        perror ("File open error!\n");
-        exit(1);
-    }
-
-    //get random number
-    srand(time(0));
-    int randomnr = rand() % (linecounter + 1);
-
-    //get sentence from rnd line number
-    int index = 0;
-    ssize_t len = 0;
-    char *concatstring = malloc(doclen * sizeof(char));
-
-    while((len = getline(&buffer, &buffer_size, fptr)) > 0) {
-        if(index == randomnr) {
-            strcpy(concatstring, buffer);
-            while(!strchr(buffer,'\n')){
-                buffer = NULL;
-                len += getline(&buffer, &buffer_size, fptr);
-                strcat(concatstring, buffer);
-            }
-            break;
-        }
-        buffer = NULL;
-        index++;
-    }
-    free(buffer);
-
-    fclose(fptr);
-    char *buffer_no_lf = malloc(sizeof(char) * len - 1);
-    strncpy(buffer_no_lf, concatstring, len - 1);
-    buffer_no_lf[len - 1] = '\0';
-    free(concatstring);
-    return buffer_no_lf;
-}
-
-
-Struct countlines(char *filename) {
-    // count the number of lines in the file called filename
-    FILE *fp = fopen(filename,"r");
-    char *buffer = NULL;
-    size_t buffer_size = 0;
-
-    int lines=0;
-
-    if (fp == NULL){
-        perror("File open error or empty file\n");
-        exit(1);
-    }
-
-    lines++;
-    ssize_t doclen = 0;
-    ssize_t len = 0;
-    while((len = getline(&buffer, &buffer_size, fp)) > 0) {
-        doclen += len;
-        if(strchr(buffer, '\n')) {
-            lines++;
-        }
-        buffer = NULL;
-    }
-
-    fclose(fp);
-    free(buffer);
-
-    Struct s;
-    s.lines = lines;
-    s.doclen = doclen;
-
-
-    if( lines == 0){
-        perror("File is empty or no LF in file\n");
-        exit(1);
-    }
-    return s;
 }
