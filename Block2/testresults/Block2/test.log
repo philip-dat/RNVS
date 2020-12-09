@@ -1,6 +1,6 @@
 .
 ----------------------------------------------------------------------
-Ran 1 test in 3.412s
+Ran 1 test in 2.358s
 
 OK
 ....FFF
@@ -38,6 +38,6 @@ Traceback (most recent call last):
 AssertionError: False is not true : Server did not open port 17 within 3.0 seconds after starting
 
 ----------------------------------------------------------------------
-Ran 7 tests in 25.877s
+Ran 7 tests in 25.660s
 
 FAILED (failures=3)
