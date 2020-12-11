@@ -1,7 +1,3 @@
-/*
-** server.c -- a stream socket server demo
-*/
-#define _POSIX_C_SOURCE 200809L
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -13,244 +9,187 @@
 #include <netdb.h>
 #include <arpa/inet.h>
 #include <sys/wait.h>
-#include <signal.h>
-#include <stdbool.h>
-#include <math.h>
-#define BACKLOG 10
+#include <unistd.h>
+#include "msg.h"
 #include "uthash.h"
 
 
-
-typedef struct my_struct {
+typedef struct record {
     char *key;
     char *value;
-    unsigned short valueLen;
-    UT_hash_handle hh; /* makes this structure hashable */
-}element;
+    uint32_t value_length;
+    uint16_t key_length;
+    UT_hash_handle hh;
+} record;
 
-typedef struct headerP
-{
-    char order[1];
-    char transId[1];
-    unsigned short keyLM;
-    unsigned short valueLM;
-}header;
-
-
-
-element* add_elem (element* table, char* key, char* value, unsigned short valueLength) {
-    element* elem;
-    elem = calloc(1, sizeof *elem);
-    elem->key = key;
-    elem->value = value;
-    memcpy(elem->value, value, valueLength);
-    elem->valueLen = valueLength;
-    return elem;
+record *add_record(record **table, message *msg) {
+    record *new_record = malloc(sizeof(record));
+    new_record->key_length = msg->head->key_length;
+    new_record->value_length = msg->head->value_length;
+    new_record->key = malloc(sizeof(char) * new_record->key_length + 1);
+    new_record->value = malloc(sizeof(char) * new_record->value_length);
+    memcpy(new_record->key, msg->key, new_record->key_length);
+    memcpy(new_record->value, msg->value, new_record->value_length);
+    new_record->key[new_record->key_length] = '\0';
+    HASH_ADD_KEYPTR(hh, *table, new_record->key, new_record->key_length, new_record);
+    return new_record;
 }
 
-
-ssize_t rec(int sockfd, void *buf, size_t len, int flags)
-{
-    ssize_t leng;
-    if ((leng = recv(sockfd, buf, len, flags)) == -1)
-    {
-        perror("recv");
-        close(sockfd);
-        exit(1);
+message *set(record **table, message *msg){
+    record *h = NULL;
+    HASH_FIND(hh, *table, msg->key, msg->head->key_length, h);
+    if(h == NULL) {
+        h = add_record(table, msg);
     }
-    return leng;
-}
-
-int toBit(char byte, int index)
-{
-    index = 7 - index;
-    return (int)((byte >> index));
-}
-
-void convertNumberIntoArray(unsigned int number,char * arr) {
-    int i = 0;
-    do {
-        arr[i] = number % 10;
-        printf("arr: %d num : %d\n",arr[i],number %10);
-        number /= 10;
-        i++;
-    } while (number != 0);
-}
-
-void sendprocess(){
-
-}
-
-void process(element * table, int new_fd){
-    header* head = malloc(sizeof(header));
-    char buf[2];
-    while(rec(new_fd, head->order, sizeof(head->order), 0) != 0) {
-        // receiving
-        rec(new_fd, head->transId, sizeof(head->transId), 0);
-        rec(new_fd, buf, sizeof(buf), 0);
-        head->keyLM = buf[0] + buf[1];
-        rec(new_fd, buf, sizeof(buf), 0);
-        head->valueLM = buf[0] + buf[1];
-
-        char *key = calloc(head->keyLM +1, sizeof(char));
-        char *value = calloc(head->valueLM +1, sizeof(char));
-
-        rec(new_fd, key, head->keyLM, 0);
-
-        if((head->order[0] & 0b00001111) == 2) {
-            rec(new_fd, value, head->valueLM, 0);
-        }
-
-        int get = toBit(head->order[0], 5);
-        int set = toBit(head->order[0], 6);
-        int del = toBit(head->order[0], 7);
-
-        element *elem = NULL;
-        HASH_FIND_STR(table, key, elem);
-
-        bool get1 = false;
-        bool success = true;
-
-        // working
-        if(get == 1) {
-            get1 = true;
-            if(elem != NULL) {
-                head->keyLM = strlen(elem->key);
-                head->valueLM = elem->valueLen;
-                value = calloc(head->valueLM, sizeof(char));
-                memcpy(value, elem->value, head->valueLM);
-            }
-            else {
-                success = false;
-            }
-        }
-        else if(set == 1) {
-            if(elem != NULL) {
-                HASH_DEL(table, elem);
-            }
-            elem = add_elem(table, key, value, head->valueLM);
-            HASH_ADD_KEYPTR(hh, table, elem->key, strlen(elem->key), elem);
-        }
-        else if(del == 1) {
-            if(elem != NULL) {
-                HASH_DEL(table, elem);
-
-                free(elem);
-
-                head->valueLM = 0;
-                head->keyLM = 0;
-            }
-        }
-
-        // sending
-        head->order[0] = head->order[0] + 00001000;
-        send(new_fd, head->order, sizeof(head->order), 0);
-        send(new_fd, head->transId, sizeof(head->transId), 0);
-
-        buf[0] = head->keyLM >> 8;
-        buf[1] = (head->keyLM << 8) >> 8;
-
-        if (!success || get1)
-            send(new_fd, buf, sizeof(buf), 0);
-        else {
-            buf[0] = 0;
-            buf[1] = 0;
-            send(new_fd, buf, sizeof(buf), 0);
-        }
-        if (success && get1) {
-            buf[0] = head->valueLM >> 8;
-            buf[1] = (head->valueLM << 8) >> 8;
-            send(new_fd, buf, sizeof(buf), 0);
-        }else{
-            buf[0] = 0;
-            buf[1] = 0;
-            send(new_fd, buf, sizeof(buf), 0);
-        }
-
-        if (!success || get1)
-            send(new_fd, key, head->keyLM, 0);
-        if (success && get) {
-            send(new_fd, value, head->valueLM, 0);
-        }
-    }
-    close(new_fd);
-}
-
-int main(int argc, char *argv[]) {
-    if (argc != 2) {
-        fprintf(stderr,"Error you need a ort as parameter\n");
-        exit(1);
+    // else update the value
+    if(msg->head->value_length != h->value_length) {
+        h->value_length = msg->head->value_length;
+        h-> value = realloc(h->value, h->value_length);
+        memcpy(h->value, msg->value, h->value_length);
     }
 
-    int sockfd, new_fd; // listen on sock_fd, new connection on new_fd
+    // craft and return the reply
+    message *reply = empty_message();
+    reply->head->operation = msg->head->operation;
+    reply->head->operation |= 1 << 3; //set the acknowledgement bit
+    return reply;
+
+}
+
+message *delete(record **table, message *msg){
+    record *h;
+    HASH_FIND(hh, *table, msg->key, msg->head->key_length, h);
+    message *reply = empty_message();
+    reply->head->operation =  msg->head->operation;
+    if (h == NULL) {
+        char * err = "Record does not exist";
+        reply->head->value_length = strlen(err);
+        reply->value = realloc(reply->value, reply->head->value_length);
+        memcpy(reply->value, err, reply->head->value_length);
+        return reply;
+    }
+    HASH_DEL(*table, h);
+    free(h->value);
+    free(h->key);
+    free(h);
+    reply->head->operation |= 1 << 3; //set the acknowledgement bit
+    return reply;
+}
+
+message *get(record **table, message *msg) {
+    record *h;
+    message *reply = empty_message();
+    reply->head->operation = msg->head->operation;
+    HASH_FIND(hh, *table, msg->key, msg->head->key_length, h);
+
+    // No record found, message contains error
+    if(h == NULL) {
+        char * err = "Record does not exist";
+        reply->head->value_length = strlen(err);
+        reply->value = realloc(reply->value, reply->head->value_length);
+        memcpy(reply->value, err, reply->head->value_length);
+        return reply;
+    }
+
+    reply->head->operation |= 1 << 3; //set the acknowledgement bit
+    reply->head->value_length = h->value_length;
+    reply->head->key_length = h->key_length;
+    reply->value = malloc(sizeof(char) * reply->head->value_length);
+    reply->key = malloc(sizeof(char) * reply->head->key_length);
+    memcpy(reply->value, h->value, h->value_length);
+    memcpy(reply->key, h->key, h->key_length);
+    return reply;
+}
+
+int main(int argc, char* argv[]){
+    int socketfd, new_fd;
     struct addrinfo hints, *servinfo, *p;
-    struct sockaddr_storage their_addr; // connector's address information
-    socklen_t sin_size;
-    
-    int yes = 1;
-    int rv;
-    char *PORT;
-    PORT = argv[1];
+
+    if (argc != 2) {
+        fprintf(stderr, "Please provide a suitable port");
+        exit(1);
+    }
+
+    char *port = argv[1];
+    // init empty hashtable
+    record *hash_table = NULL;
 
     memset(&hints, 0, sizeof hints);
     hints.ai_family = AF_UNSPEC;
     hints.ai_socktype = SOCK_STREAM;
     hints.ai_flags = AI_PASSIVE; // use my IP
 
-    if ((rv = getaddrinfo(NULL, PORT, &hints, &servinfo)) != 0) {
-        fprintf(stderr, "getaddrinfo: %s\n", gai_strerror(rv));
+    if(getaddrinfo(NULL, port, &hints, &servinfo) != 0) {
+        fprintf(stderr, "Error on getaddrinfo");
         exit(1);
     }
 
     // loop through all the results and bind to the first we can
-    for (p = servinfo; p != NULL; p = p->ai_next) {
-        if ((sockfd = socket(p->ai_family, p->ai_socktype,
-                             p->ai_protocol)) == -1)
-        {
-            fprintf(stderr,"server: socket");
+    for(p = servinfo; p != NULL; p = p->ai_next) {
+        if ((socketfd = socket(p->ai_family, p->ai_socktype,
+                               p->ai_protocol)) == -1) {
+            perror("server: socket");
             continue;
         }
 
-        if (setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, &yes,
-                       sizeof(int)) == -1) {
-            fprintf(stderr,"setsockopt");
-            exit(1);
-        }
+        // reuse address for debugging
+        int yes = 1;
+        setsockopt(socketfd, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(int));
 
-        if (bind(sockfd, p->ai_addr, p->ai_addrlen) == -1) {
-            close(sockfd);
-            fprintf(stderr,"server: bind");
+        //bind to socket
+        if (bind(socketfd, p->ai_addr, p->ai_addrlen) == -1) {
+            close(socketfd);
+            perror("server: bind");
             continue;
         }
 
         break;
     }
 
-    if (p == NULL) {
+    freeaddrinfo(servinfo);
+
+    if (p == NULL)  {
         fprintf(stderr, "server: failed to bind\n");
         exit(1);
     }
 
-    freeaddrinfo(servinfo); // all done with this structure
-
-    if (listen(sockfd, BACKLOG) == -1) {
-        fprintf(stderr,"listen");
+    //listen to incoming messages from client
+    if (listen(socketfd, 2) == -1) {
+        perror("listen");
         exit(1);
     }
 
-    element * table = NULL;
-    sin_size = sizeof their_addr;
-   
-    printf("server: waiting for connections...\n");
+    // infinite loop
+    while (1) {
 
-    while (1) { // main accept() loop
-        
-        if ((new_fd = accept(sockfd, (struct sockaddr *)&their_addr, &sin_size)) == -1) {
-            fprintf(stderr,"accept");
-            continue;            
-        }
-        process(table, new_fd);
+            struct sockaddr_storage their_addr;
+            socklen_t addr_size = sizeof their_addr;
+            new_fd = accept(socketfd, (struct sockaddr *)&their_addr, &addr_size);
+
+            //receive message
+            message *rec_msg = receive_message(new_fd);
+
+            // handle operation and send reply message
+            message *reply;
+            char *op = parseOperation(rec_msg);
+            if(strncmp(op,"GET", 3) == 0) {
+                reply = get(&hash_table, rec_msg);
+            } else if(strncmp(op,"DELETE", 6) == 0) {
+                reply = delete(&hash_table, rec_msg);
+            } else if(strncmp(op,"SET", 3) == 0) {
+                reply = set(&hash_table, rec_msg);
+            } else {
+                fprintf(stderr,"Unknown operation");
+            }
+            send_message(reply, new_fd);
+            free_message(rec_msg);
+            free_message(reply);
+
+            // close connection
+            close(new_fd);
+
     }
-        close(sockfd);  
-        return 0;
+
+    close(socketfd);
+
 }
