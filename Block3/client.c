@@ -40,7 +40,7 @@ uint8_t set_operation_bit(char *operation) {
 
 void get_value_from_stdin(message *msg){
     char buffer[BUF_SIZE];
-    int chunk;
+    size_t chunk = 0;
     while( (chunk = fread(buffer, sizeof(char), BUF_SIZE, stdin)) > 0) {
         int endoffile = msg->head->value_length;
         msg->head->value_length += chunk;
@@ -53,7 +53,7 @@ void set_message(char *key, char *operation, message *msg){
     msg->head->key_length = strlen(key);
     msg->key = malloc(msg->head->key_length);
     memcpy(msg->key, key, strlen(key));
-    msg->head->operation = set_operation_bit(operation);       //setting operation bit in header
+    msg->head->operation = set_operation_bit(operation);
     msg->value = malloc(sizeof(char) * BUF_SIZE);
 
     if(strncmp(parseOperation(msg),"SET", 3) == 0) {
