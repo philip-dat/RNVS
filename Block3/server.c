@@ -62,7 +62,7 @@ message *delete(record **table, message *msg){
     message *reply = empty_message();
     reply->head->operation =  msg->head->operation;
     if (h == NULL) {
-        char * err = "Record does not exist";
+        char * err = "";
         reply->head->value_length = strlen(err);
         reply->value = realloc(reply->value, reply->head->value_length);
         memcpy(reply->value, err, reply->head->value_length);
@@ -84,7 +84,7 @@ message *get(record **table, message *msg) {
 
     // No record found, message contains error
     if(h == NULL) {
-        char * err = "Record does not exist";
+        char * err = "";
         reply->head->value_length = strlen(err);
         reply->value = realloc(reply->value, reply->head->value_length);
         memcpy(reply->value, err, reply->head->value_length);
