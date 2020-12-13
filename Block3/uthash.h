@@ -294,37 +294,37 @@ do {                                                                            
 
 #ifdef NO_DECLTYPE
 #undef HASH_AKBI_INNER_LOOP
-#define HASH_AKBI_INNER_LOOP(hh,head,add,cmpfcn)                                 \
+#define HASH_AKBI_INNER_LOOP(hh,meta_data,add,cmpfcn)                                 \
 do {                                                                             \
-  char *_hs_saved_head = (char*)(head);                                          \
+  char *_hs_saved_head = (char*)(meta_data);                                          \
   do {                                                                           \
-    DECLTYPE_ASSIGN(head, _hs_iter);                                             \
-    if (cmpfcn(head, add) > 0) {                                                 \
-      DECLTYPE_ASSIGN(head, _hs_saved_head);                                     \
+    DECLTYPE_ASSIGN(meta_data, _hs_iter);                                             \
+    if (cmpfcn(meta_data, add) > 0) {                                                 \
+      DECLTYPE_ASSIGN(meta_data, _hs_saved_head);                                     \
       break;                                                                     \
     }                                                                            \
-    DECLTYPE_ASSIGN(head, _hs_saved_head);                                       \
-  } while ((_hs_iter = HH_FROM_ELMT((head)->hh.tbl, _hs_iter)->next));           \
+    DECLTYPE_ASSIGN(meta_data, _hs_saved_head);                                       \
+  } while ((_hs_iter = HH_FROM_ELMT((meta_data)->hh.tbl, _hs_iter)->next));           \
 } while (0)
 #endif
 
 #if HASH_NONFATAL_OOM
 
-#define HASH_ADD_TO_TABLE(hh,head,keyptr,keylen_in,hashval,add,oomed)            \
+#define HASH_ADD_TO_TABLE(hh,meta_data,keyptr,keylen_in,hashval,add,oomed)            \
 do {                                                                             \
   if (!(oomed)) {                                                                \
     unsigned _ha_bkt;                                                            \
-    (head)->hh.tbl->num_items++;                                                 \
-    HASH_TO_BKT(hashval, (head)->hh.tbl->num_buckets, _ha_bkt);                  \
-    HASH_ADD_TO_BKT((head)->hh.tbl->buckets[_ha_bkt], hh, &(add)->hh, oomed);    \
+    (meta_data)->hh.tbl->num_items++;                                                 \
+    HASH_TO_BKT(hashval, (meta_data)->hh.tbl->num_buckets, _ha_bkt);                  \
+    HASH_ADD_TO_BKT((meta_data)->hh.tbl->buckets[_ha_bkt], hh, &(add)->hh, oomed);    \
     if (oomed) {                                                                 \
-      HASH_ROLLBACK_BKT(hh, head, &(add)->hh);                                   \
-      HASH_DELETE_HH(hh, head, &(add)->hh);                                      \
+      HASH_ROLLBACK_BKT(hh, meta_data, &(add)->hh);                                   \
+      HASH_DELETE_HH(hh, meta_data, &(add)->hh);                                      \
       (add)->hh.tbl = NULL;                                                      \
       uthash_nonfatal_oom(add);                                                  \
     } else {                                                                     \
-      HASH_BLOOM_ADD((head)->hh.tbl, hashval);                                   \
-      HASH_EMIT_KEY(hh, head, keyptr, keylen_in);                                \
+      HASH_BLOOM_ADD((meta_data)->hh.tbl, hashval);                                   \
+      HASH_EMIT_KEY(hh, meta_data, keyptr, keylen_in);                                \
     }                                                                            \
   } else {                                                                       \
     (add)->hh.tbl = NULL;                                                        \
@@ -436,9 +436,9 @@ do {                                                                            
  * "the usual" patch-up process for the app-order doubly-linked-list.
  * The use of _hd_hh_del below deserves special explanation.
  * These used to be expressed using (delptr) but that led to a bug
- * if someone used the same symbol for the head and deletee, like
+ * if someone used the same symbol for the meta_data and deletee, like
  *  HASH_DELETE(hh,users,users);
- * We want that to work, but by changing the head (users) below
+ * We want that to work, but by changing the meta_data (users) below
  * we were forfeiting our ability to further refer to the deletee (users)
  * in the patch-up process. Solution: use scratch space to
  * copy the deletee pointer, then the latter references are via that
@@ -512,16 +512,16 @@ do {                                                                            
  */
 #ifdef HASH_DEBUG
 #define HASH_OOPS(...) do { fprintf(stderr,__VA_ARGS__); exit(-1); } while (0)
-#define HASH_FSCK(hh,head,where)                                                 \
+#define HASH_FSCK(hh,meta_data,where)                                                 \
 do {                                                                             \
   struct UT_hash_handle *_thh;                                                   \
-  if (head) {                                                                    \
+  if (meta_data) {                                                                    \
     unsigned _bkt_i;                                                             \
     unsigned _count = 0;                                                         \
     char *_prev;                                                                 \
-    for (_bkt_i = 0; _bkt_i < (head)->hh.tbl->num_buckets; ++_bkt_i) {           \
+    for (_bkt_i = 0; _bkt_i < (meta_data)->hh.tbl->num_buckets; ++_bkt_i) {           \
       unsigned _bkt_count = 0;                                                   \
-      _thh = (head)->hh.tbl->buckets[_bkt_i].hh_head;                            \
+      _thh = (meta_data)->hh.tbl->buckets[_bkt_i].hh_head;                            \
       _prev = NULL;                                                              \
       while (_thh) {                                                             \
         if (_prev != (char*)(_thh->hh_prev)) {                                   \
@@ -533,30 +533,30 @@ do {                                                                            
         _thh = _thh->hh_next;                                                    \
       }                                                                          \
       _count += _bkt_count;                                                      \
-      if ((head)->hh.tbl->buckets[_bkt_i].count !=  _bkt_count) {                \
+      if ((meta_data)->hh.tbl->buckets[_bkt_i].count !=  _bkt_count) {                \
         HASH_OOPS("%s: invalid bucket count %u, actual %u\n",                    \
-            (where), (head)->hh.tbl->buckets[_bkt_i].count, _bkt_count);         \
+            (where), (meta_data)->hh.tbl->buckets[_bkt_i].count, _bkt_count);         \
       }                                                                          \
     }                                                                            \
-    if (_count != (head)->hh.tbl->num_items) {                                   \
+    if (_count != (meta_data)->hh.tbl->num_items) {                                   \
       HASH_OOPS("%s: invalid hh item count %u, actual %u\n",                     \
-          (where), (head)->hh.tbl->num_items, _count);                           \
+          (where), (meta_data)->hh.tbl->num_items, _count);                           \
     }                                                                            \
     _count = 0;                                                                  \
     _prev = NULL;                                                                \
-    _thh =  &(head)->hh;                                                         \
+    _thh =  &(meta_data)->hh;                                                         \
     while (_thh) {                                                               \
       _count++;                                                                  \
       if (_prev != (char*)_thh->prev) {                                          \
         HASH_OOPS("%s: invalid prev %p, actual %p\n",                            \
             (where), (void*)_thh->prev, (void*)_prev);                           \
       }                                                                          \
-      _prev = (char*)ELMT_FROM_HH((head)->hh.tbl, _thh);                         \
-      _thh = (_thh->next ? HH_FROM_ELMT((head)->hh.tbl, _thh->next) : NULL);     \
+      _prev = (char*)ELMT_FROM_HH((meta_data)->hh.tbl, _thh);                         \
+      _thh = (_thh->next ? HH_FROM_ELMT((meta_data)->hh.tbl, _thh->next) : NULL);     \
     }                                                                            \
-    if (_count != (head)->hh.tbl->num_items) {                                   \
+    if (_count != (meta_data)->hh.tbl->num_items) {                                   \
       HASH_OOPS("%s: invalid app item count %u, actual %u\n",                    \
-          (where), (head)->hh.tbl->num_items, _count);                           \
+          (where), (meta_data)->hh.tbl->num_items, _count);                           \
     }                                                                            \
   }                                                                              \
 } while (0)
@@ -568,7 +568,7 @@ do {                                                                            
  * the descriptor to which this macro is defined for tuning the hash function.
  * The app can #include <unistd.h> to get the prototype for write(2). */
 #ifdef HASH_EMIT_KEYS
-#define HASH_EMIT_KEY(hh,head,keyptr,fieldlen)                                   \
+#define HASH_EMIT_KEY(hh,meta_data,keyptr,fieldlen)                                   \
 do {                                                                             \
   unsigned _klen = fieldlen;                                                     \
   write(HASH_EMIT_KEYS, &_klen, sizeof(_klen));                                  \
@@ -1133,8 +1133,8 @@ do {                                                                            
            (HASH_BLOOM_BYTELEN))) : 0U)
 
 #ifdef NO_DECLTYPE
-#define HASH_ITER(hh,head,el,tmp)                                                \
-for(((el)=(head)), ((*(char**)(&(tmp)))=(char*)((head!=NULL)?(head)->hh.next:NULL)); \
+#define HASH_ITER(hh,meta_data,el,tmp)                                                \
+for(((el)=(meta_data)), ((*(char**)(&(tmp)))=(char*)((meta_data!=NULL)?(meta_data)->hh.next:NULL)); \
   (el) != NULL; ((el)=(tmp)), ((*(char**)(&(tmp)))=(char*)((tmp!=NULL)?(tmp)->hh.next:NULL)))
 #else
 #define HASH_ITER(hh,head,el,tmp)                                                \

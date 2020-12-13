@@ -7,7 +7,6 @@
 #include "communication.h"
 
 int main(int argc, char* argv[]){
-    int socketfd, new_fd;
     struct addrinfo hints, *servinfo, *p;
 
     if (argc != 2) {
@@ -15,40 +14,38 @@ int main(int argc, char* argv[]){
         exit(1);
     }
 
-    char *port = argv[1];
-    // init empty hashtable
+    // initialise our hashtable for saving entries
     entry *hash_table = NULL;
 
     memset(&hints, 0, sizeof hints);
     hints.ai_family = AF_UNSPEC;
     hints.ai_socktype = SOCK_STREAM;
-    hints.ai_flags = AI_PASSIVE; // use my IP
+    hints.ai_flags = AI_PASSIVE;
 
+    char *port = argv[1];
     if(getaddrinfo(NULL, port, &hints, &servinfo) != 0) {
         fprintf(stderr, "Error on getaddrinfo");
         exit(1);
     }
-
-    // loop through all the results and bind to the first we can
+    int socketfd;
+    // bind to the first possible result
     for(p = servinfo; p != NULL; p = p->ai_next) {
         if ((socketfd = socket(p->ai_family, p->ai_socktype,
                                p->ai_protocol)) == -1) {
-            perror("server: socket");
+            fprintf(stderr,"server: socket");
             continue;
         }
 
         // reuse address for debugging
-        int yes = 1;
-        setsockopt(socketfd, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(int));
+        int temp = 1;
+        setsockopt(socketfd, SOL_SOCKET, SO_REUSEADDR, &temp, sizeof(int));
 
-        //bind to socket
+        //bind server to socket
         if (bind(socketfd, p->ai_addr, p->ai_addrlen) == -1) {
             close(socketfd);
-            perror("server: bind");
+            fprintf(stderr,"server: bind");
             continue;
-        }
-
-        break;
+        } break;
     }
 
     freeaddrinfo(servinfo);
@@ -58,46 +55,48 @@ int main(int argc, char* argv[]){
         exit(1);
     }
 
-    //listen to incoming messages from client
+    //listen on created socket for client
     if (listen(socketfd, 2) == -1) {
         perror("listen");
         exit(1);
     }
 
-    // infinite loop
+    int new_fd;
+
+
     while (1) {
 
-            struct sockaddr_storage their_addr;
-            socklen_t addr_size = sizeof their_addr;
-            new_fd = accept(socketfd, (struct sockaddr *)&their_addr, &addr_size);
+        struct sockaddr_storage their_addr;
+        socklen_t addr_size = sizeof their_addr;
+        new_fd = accept(socketfd, (struct sockaddr *)&their_addr, &addr_size);
 
-            //receive message
-            message *msg = receive_message(new_fd);
+        //receive message from client
+        message *recvd_message = receive_message(new_fd);
 
-            // select operation and send reply message
-            message *reply;
+        // check which command_bits in header
+        char *command = get_command(recvd_message);
+        message *reply_message;
 
-            char *op = parse_operation(msg);
+        //get, set or delete entry from hashtable
+        if(strncmp(command, "GET", 3) == 0) {
+            reply_message = get_entry(&hash_table, recvd_message);
+        } else if(strncmp(command, "DELETE", 6) == 0) {
+            reply_message = delete_entry(&hash_table, recvd_message);
+        } else if(strncmp(command, "SET", 3) == 0) {
+            reply_message = set_entry(&hash_table, recvd_message);
+        } else {
+            fprintf(stderr, "not a possible command_bits");
+            exit(1);
+        }
 
-            if(strncmp(op,"GET", 3) == 0) {
-                reply = get(&hash_table, msg);
-            } else if(strncmp(op,"DELETE", 6) == 0) {
-                reply = delete(&hash_table, msg);
-            } else if(strncmp(op,"SET", 3) == 0) {
-                reply = set(&hash_table, msg);
-            } else {
-                //No valid operation given
-                fprintf(stderr,"NOT AN OPERATION\n");
-                exit(1);
-            }
+        //reply_message client, if received a valid message and everything was saved/gotten/deleted correctly
+        send_message(reply_message, new_fd);
 
-            send_message(reply, new_fd);
+        // free storage of received and replied message
+        free_message(recvd_message);
+        free_message(reply_message);
 
-            // free used space
-            free_message(msg);
-            free_message(reply);
-
-            // close connection
-            close(new_fd);
+        // shutdown connection
+        close(new_fd);
     }
 }

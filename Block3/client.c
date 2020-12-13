@@ -9,70 +9,74 @@
 int main(int argc, char* argv[]) {
 
     if (argc != 5) {
-        fprintf(stderr, "Parameters: hostname, port, operation, key");
+        fprintf(stderr, "Parameters: hostname, port, command_bits, key");
         exit(1);
     }
 
-    // parse command line arguments
-    int status;
+    //useful variables, we need later
     struct addrinfo *servinfo, hints, *p;
+
+    //parameter into variables
     char* host = argv[1];
     char* port = argv[2];
-    char* operation = argv[3];
+    char* command = argv[3];
     char* key = argv[4];
-   
-   // allocate memory for message
-    message *msg = message_template();
-    set_message(key, operation, msg);
 
-    fwrite(msg->value, 1, msg->head->value_length, stdout);
+    // allocate memory for new message to send
+    message *message_for_server = create_new_message();
+    create_message_content(key, command, message_for_server);
 
-    memset(&hints, 0, sizeof hints); // make sure the struct is empty
-    hints.ai_family = AF_UNSPEC;     // don't care IPv4 or IPv6
-    hints.ai_socktype = SOCK_STREAM; // TCP stream sockets
-    hints.ai_flags = AI_PASSIVE;     // fill in my IP for me
+    fwrite(message_for_server->value, 1, message_for_server->meta_data->len_of_value, stdout);
 
-    //get address info
+    memset(&hints, 0, sizeof hints);
+    hints.ai_family = AF_UNSPEC;
+    hints.ai_socktype = SOCK_STREAM;
+    hints.ai_flags = AI_PASSIVE;
+
+    //get address info: If wrong, put error
+    int status;
     if ((status = getaddrinfo(host, port, &hints, &servinfo)) != 0) {
         fprintf(stderr, "getaddrinfo error: %s\n", gai_strerror(status));
-        free_message(msg);
+        free_message(message_for_server);
         exit(1);
     }
 
-    // loop through result and try to connect to the first possible
+    //get the first possible connection
     int socketfd;
     for (p = servinfo; p!= NULL; p = p->ai_next) {
         if ((socketfd = socket(p->ai_family, p->ai_socktype, p->ai_protocol)) == -1){
-            perror("Could not establish client socket");
+            perror("socket wasnt created");
             continue;
         }
 
         if(connect(socketfd, p->ai_addr, p->ai_addrlen) == -1 ) {
             close(socketfd);
-            perror("Client could not connect");
+            perror("CLient: connect failed");
             continue;
         }
         break;
     }
 
+    //if no connection was possible
     if (p == NULL) {
         fprintf(stderr, "client: failed to connect\n");
-        free_message(msg);
+        free_message(message_for_server);
         exit(1);
     }
 
-    //send message to server in intervals
-    send_message(msg, socketfd);
+    //transfer message and free storage afterwards
+    send_message(message_for_server, socketfd);
+    free_message(message_for_server);
 
-    // free memory for msg
-    free_message(msg);
-
-    // receive reply
+    //get an answer from server
     message *reply = receive_message(socketfd);
-    handle_reply_client(reply);
+    handle_reply_from_server(reply);
 
+    //answer must be freed
     free_message(reply);
     freeaddrinfo(servinfo);
+
+    //shutdown connection
     close(socketfd);
     return 0;
 }

@@ -121,8 +121,16 @@
 		<Unit filename="/home/tkn/Desktop/RNVS/RNVS/Block3/client.c">
 			<Option target="client"/>
 		</Unit>
+		<Unit filename="/home/tkn/Desktop/RNVS/RNVS/Block3/communication.h">
+			<Option target="server"/>
+			<Option target="client"/>
+		</Unit>
 		<Unit filename="/home/tkn/Desktop/RNVS/RNVS/Block3/server.c">
 			<Option target="server"/>
+		</Unit>
+		<Unit filename="/home/tkn/Desktop/RNVS/RNVS/Block3/uthash.h">
+			<Option target="server"/>
+			<Option target="client"/>
 		</Unit>
 		<Unit filename="/home/tkn/Desktop/RNVS/RNVS/Block3/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
