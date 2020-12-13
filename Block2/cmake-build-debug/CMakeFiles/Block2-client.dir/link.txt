@@ -1,0 +1,1 @@
+/usr/bin/cc -g   CMakeFiles/Block2-client.dir/client.c.o  -o client 

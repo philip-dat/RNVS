@@ -1,0 +1,4 @@
+/home/tkn/Desktop/RNVS/RNVS/Block3/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/tkn/Desktop/RNVS/RNVS/Block3/cmake-build-debug/CMakeFiles/server.dir
+/home/tkn/Desktop/RNVS/RNVS/Block3/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/tkn/Desktop/RNVS/RNVS/Block3/cmake-build-debug/CMakeFiles/client.dir

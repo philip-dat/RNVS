@@ -1,0 +1,1 @@
+/usr/bin/cc -g   CMakeFiles/Block2-server.dir/server.c.o  -o server 

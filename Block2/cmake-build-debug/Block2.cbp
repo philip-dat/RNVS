@@ -27,46 +27,6 @@
 					<DistClean command="/usr/bin/make -f &quot;/home/tkn/Desktop/RNVS/RNVS/Block2/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
-			<Target title="server">
-				<Option output="/home/tkn/Desktop/RNVS/RNVS/Block2/cmake-build-debug/server" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/tkn/Desktop/RNVS/RNVS/Block2/cmake-build-debug"/>
-				<Option object_output="./"/>
-				<Option type="1"/>
-				<Option compiler="gcc"/>
-				<Compiler>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
-					<Add directory="/usr/local/include"/>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
-					<Add directory="/usr/include/x86_64-linux-gnu"/>
-					<Add directory="/usr/include"/>
-				</Compiler>
-				<MakeCommands>
-					<Build command="/usr/bin/make -f &quot;/home/tkn/Desktop/RNVS/RNVS/Block2/cmake-build-debug/Makefile&quot;  VERBOSE=1 server"/>
-					<CompileFile command="/usr/bin/make -f &quot;/home/tkn/Desktop/RNVS/RNVS/Block2/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -f &quot;/home/tkn/Desktop/RNVS/RNVS/Block2/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -f &quot;/home/tkn/Desktop/RNVS/RNVS/Block2/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
-			<Target title="server/fast">
-				<Option output="/home/tkn/Desktop/RNVS/RNVS/Block2/cmake-build-debug/server" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/tkn/Desktop/RNVS/RNVS/Block2/cmake-build-debug"/>
-				<Option object_output="./"/>
-				<Option type="1"/>
-				<Option compiler="gcc"/>
-				<Compiler>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
-					<Add directory="/usr/local/include"/>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
-					<Add directory="/usr/include/x86_64-linux-gnu"/>
-					<Add directory="/usr/include"/>
-				</Compiler>
-				<MakeCommands>
-					<Build command="/usr/bin/make -f &quot;/home/tkn/Desktop/RNVS/RNVS/Block2/cmake-build-debug/Makefile&quot;  VERBOSE=1 server/fast"/>
-					<CompileFile command="/usr/bin/make -f &quot;/home/tkn/Desktop/RNVS/RNVS/Block2/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -f &quot;/home/tkn/Desktop/RNVS/RNVS/Block2/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -f &quot;/home/tkn/Desktop/RNVS/RNVS/Block2/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
 			<Target title="edit_cache">
 				<Option working_dir="/home/tkn/Desktop/RNVS/RNVS/Block2/cmake-build-debug"/>
 				<Option type="4"/>
@@ -77,8 +37,8 @@
 					<DistClean command="/usr/bin/make -f &quot;/home/tkn/Desktop/RNVS/RNVS/Block2/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
-			<Target title="client">
-				<Option output="/home/tkn/Desktop/RNVS/RNVS/Block2/cmake-build-debug/client" prefix_auto="0" extension_auto="0"/>
+			<Target title="Block2-server">
+				<Option output="/home/tkn/Desktop/RNVS/RNVS/Block2/cmake-build-debug/server" prefix_auto="0" extension_auto="0"/>
 				<Option working_dir="/home/tkn/Desktop/RNVS/RNVS/Block2/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
@@ -91,13 +51,33 @@
 					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -f &quot;/home/tkn/Desktop/RNVS/RNVS/Block2/cmake-build-debug/Makefile&quot;  VERBOSE=1 client"/>
+					<Build command="/usr/bin/make -f &quot;/home/tkn/Desktop/RNVS/RNVS/Block2/cmake-build-debug/Makefile&quot;  VERBOSE=1 Block2-server"/>
 					<CompileFile command="/usr/bin/make -f &quot;/home/tkn/Desktop/RNVS/RNVS/Block2/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
 					<Clean command="/usr/bin/make -f &quot;/home/tkn/Desktop/RNVS/RNVS/Block2/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 					<DistClean command="/usr/bin/make -f &quot;/home/tkn/Desktop/RNVS/RNVS/Block2/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
-			<Target title="client/fast">
+			<Target title="Block2-server/fast">
+				<Option output="/home/tkn/Desktop/RNVS/RNVS/Block2/cmake-build-debug/server" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/tkn/Desktop/RNVS/RNVS/Block2/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -f &quot;/home/tkn/Desktop/RNVS/RNVS/Block2/cmake-build-debug/Makefile&quot;  VERBOSE=1 Block2-server/fast"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/tkn/Desktop/RNVS/RNVS/Block2/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/tkn/Desktop/RNVS/RNVS/Block2/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/tkn/Desktop/RNVS/RNVS/Block2/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="Block2-client">
 				<Option output="/home/tkn/Desktop/RNVS/RNVS/Block2/cmake-build-debug/client" prefix_auto="0" extension_auto="0"/>
 				<Option working_dir="/home/tkn/Desktop/RNVS/RNVS/Block2/cmake-build-debug"/>
 				<Option object_output="./"/>
@@ -111,7 +91,27 @@
 					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -f &quot;/home/tkn/Desktop/RNVS/RNVS/Block2/cmake-build-debug/Makefile&quot;  VERBOSE=1 client/fast"/>
+					<Build command="/usr/bin/make -f &quot;/home/tkn/Desktop/RNVS/RNVS/Block2/cmake-build-debug/Makefile&quot;  VERBOSE=1 Block2-client"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/tkn/Desktop/RNVS/RNVS/Block2/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/tkn/Desktop/RNVS/RNVS/Block2/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/tkn/Desktop/RNVS/RNVS/Block2/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="Block2-client/fast">
+				<Option output="/home/tkn/Desktop/RNVS/RNVS/Block2/cmake-build-debug/client" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/tkn/Desktop/RNVS/RNVS/Block2/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -f &quot;/home/tkn/Desktop/RNVS/RNVS/Block2/cmake-build-debug/Makefile&quot;  VERBOSE=1 Block2-client/fast"/>
 					<CompileFile command="/usr/bin/make -f &quot;/home/tkn/Desktop/RNVS/RNVS/Block2/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
 					<Clean command="/usr/bin/make -f &quot;/home/tkn/Desktop/RNVS/RNVS/Block2/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 					<DistClean command="/usr/bin/make -f &quot;/home/tkn/Desktop/RNVS/RNVS/Block2/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
@@ -119,10 +119,10 @@
 			</Target>
 		</Build>
 		<Unit filename="/home/tkn/Desktop/RNVS/RNVS/Block2/client.c">
-			<Option target="client"/>
+			<Option target="Block2-client"/>
 		</Unit>
 		<Unit filename="/home/tkn/Desktop/RNVS/RNVS/Block2/server.c">
-			<Option target="server"/>
+			<Option target="Block2-server"/>
 		</Unit>
 		<Unit filename="/home/tkn/Desktop/RNVS/RNVS/Block2/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
