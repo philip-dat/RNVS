@@ -99,9 +99,5 @@ int main(int argc, char* argv[]){
 
             // close connection
             close(new_fd);
-
     }
-
-    close(socketfd);
-
 }
