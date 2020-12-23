@@ -1,189 +1,239 @@
+/*
+** server.c -- a stream socket server demo
+*/
+
 #include <stdio.h>
-#include <sys/socket.h>
 #include <stdlib.h>
-#include <netdb.h>
-#include <string.h>
 #include <unistd.h>
-#include <stdbool.h>
+#include <errno.h>
+#include <string.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <netdb.h>
+#include <arpa/inet.h>
+#include <sys/wait.h>
+#include <signal.h>
+#include <time.h>
+#include <limits.h>
+
+#define BACKLOG 10	 // how many pending connections queue will hold
 
 
-struct quote {
-    char* content;
-    size_t len;
-    struct quote* next;
+char *getrandomline(char *filename, int linecounter, ssize_t doclen);
+
+void sigchld_handler(int s)
+{
+    (void)s; // quiet unused variable warning
+
+    // waitpid() might overwrite errno, so we save and restore it:
+    int saved_errno = errno;
+
+    while(waitpid(-1, NULL, WNOHANG) > 0);
+
+    errno = saved_errno;
+}
+
+
+// get sockaddr, IPv4 or IPv6:
+void *get_in_addr(struct sockaddr *sa)
+{
+    if (sa->sa_family == AF_INET) {
+        return &(((struct sockaddr_in*)sa)->sin_addr);
+    }
+
+    return &(((struct sockaddr_in6*)sa)->sin6_addr);
+}
+
+struct linesnddoclen{
+    int lines;
+    ssize_t doclen;
 };
 
-struct quote* get_quotes(char* path, int* num){
-    //öffnen der Datei im Pfad (Argument), öffnen im read modus
-    FILE* f = fopen(path, "r");
-    //wenn das Öffnen der Datei gescheitert ist, dann returne null
-    if (f == NULL) {
-        fprintf(stderr, "Failed to open file %s\n!", path);
-        return NULL;
-    }
-    // erstelle structs für linkedlist. mit start/head quotes
-    struct quote* quotes = NULL;
-    // und zeiger cur
-    struct quote* cur = quotes;
-    (*num) = 0;
+typedef struct linesnddoclen Struct;
 
-    ssize_t n = 0;
-    // schleife bis getline Fehler ausgibt (n < 0) getline fertig ist (n == 0) oder die line nicht auf einem '\n' endet
-    while(true){
-        // getline alloziert speicher für line und len selbst, falls auf NULL und 0 gesetzt
-        char* line = NULL;
-        size_t  len = 0;
-        n = getline(&line, &len, f);
-        // Fehler oder fertig mit der Datei/ oder Datei leer (n == -1)
-        if (n <= 0){
-            free(line);
-            break;
-        }
-        // datei endet nicht mit LF
-        if (line[n-1] != '\n'){
-            free(line);
-            break;
-        }
-        // erstellen eines neuen Elementes für die LinkedList
-        struct quote* new_quote = (struct quote*) malloc(sizeof(struct quote));
-        new_quote->content = line;
-        new_quote->len = n;
-        new_quote->next = NULL;
-        // inkrementieren des line counters (inkrementiert den value)
-        (*num)++;
-        // erstellen des Headers
-        if (quotes == NULL){
-            // setzen des headers
-            quotes = new_quote;
-            // setzen des zeigers
-            cur = new_quote;
-        } else { // erstellen des nächsten Element in linkedlist
-            cur->next = new_quote;
-            cur = new_quote;
-        }
+Struct countlines(char *filename);
 
-    }
-    // wir schließen die file nie
-
-    // return linkedlist quotes
-    return quotes;
-}
-// parameter linkedlist quotes, und anzahl lines
-struct quote* choose_rnd_quote(struct quote* quotes, int len){
-    // wähle random index (etwas modulo etwas ist immer kleiner als len)
-    long index = (random()) % len;
-    // zeiger für linkedlist
-    struct quote* q;
-    // index zeiger
-    int i;
-    for (q = quotes, i=0; q != NULL; q=q->next, i++){
-        // wenn zeiger index auf random index returne zeile
-       if (i == index){
-            return q;
-       }
-    }
-    // wenn quotes leer return NULL
-    return NULL;
-}
-
-int main(int argc, char** argv) {
-    if (argc < 3) {
-        printf("%s\n", "No enough args provided!");
+int main(int argc, char* argv[])
+{
+    //checking for passing enough arguments
+    if(argc != 3){
+        printf("error: usage: port file\n");
         return 1;
     }
 
-    char* port = argv[1];
-    char* path = argv[2];
+    int sockfd, new_fd;  // listen on sock_fd, new connection on new_fd
+    struct addrinfo hints, *servinfo, *p;
+    struct sockaddr_storage their_addr; // connector's address information
+    socklen_t sin_size;
+    struct sigaction sa;
+    int yes=1;
+    char s[INET6_ADDRSTRLEN];
+    int rv;
 
-    int count = 0;
-    struct quote* quotes = get_quotes(path, &count);
-    if (quotes == NULL) {
-        fprintf(stderr, "Failed to load quotes!\n");
-        return 1;
-    }
-
-    struct addrinfo hints;
-    struct addrinfo* res;
-    struct addrinfo* p;
-
-    memset(&hints, 0, sizeof(struct addrinfo));
+    memset(&hints, 0, sizeof hints);
     hints.ai_family = AF_UNSPEC;
     hints.ai_socktype = SOCK_STREAM;
-    hints.ai_flags = AI_PASSIVE;
+    hints.ai_flags = AI_PASSIVE; // use my IP
+
+    char* PORT = argv[1];
 
 
-    int status = getaddrinfo(NULL, port, &hints, &res);
-    if (status != 0){
-        fprintf(stderr, "%s\n", "getaddrinfo() failed!");
+    if ((rv = getaddrinfo(NULL, PORT, &hints, &servinfo)) != 0) {
+        fprintf(stderr, "getaddrinfo: %s\n", gai_strerror(rv));
         return 1;
     }
 
-    int s = -1;
-    for(p = res; p != NULL;p = p->ai_next){
-        s = socket(res->ai_family, res->ai_socktype, res->ai_protocol);
-        if (s == -1){
+    // loop through all the results and bind to the first we can
+    for(p = servinfo; p != NULL; p = p->ai_next) {
+        if ((sockfd = socket(p->ai_family, p->ai_socktype,
+                             p->ai_protocol)) == -1) {
+            fprintf(stderr,"server: socket");
             continue;
         }
 
-        int optval = 1;
-        setsockopt(s, SOL_SOCKET, SO_REUSEADDR, &optval, sizeof(int));
+        if (setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, &yes,
+                       sizeof(int)) == -1) {
+            fprintf(stderr,"setsockopt");
+            exit(1);
+        }
 
-
-        status = bind(s, res->ai_addr, res->ai_addrlen);
-        if (status != 0){
-           close(s);
-           continue;
+        if (bind(sockfd, p->ai_addr, p->ai_addrlen) == -1) {
+            close(sockfd);
+            fprintf(stderr,"server: bind");
+            continue;
         }
 
         break;
     }
 
-    if (s == -1){
-        fprintf(stderr, "%s\n", "Unable to create socket!");
-        return 1;
+    freeaddrinfo(servinfo); // all done with this structure
+
+    if (p == NULL)  {
+        fprintf(stderr, "server: failed to bind\n");
+        exit(1);
     }
 
-    if (status != 0){
-        fprintf(stderr, "%s\n", "Failed to bind socket!");
-        return 1;
+    if (listen(sockfd, BACKLOG) == -1) {
+        fprintf(stderr,"listen");
+        exit(1);
     }
 
-    status = listen(s, 1);
-    if (status != 0){
-        fprintf(stderr, "Listen failed!\n");
-        return 1;
+    sa.sa_handler = sigchld_handler; // reap all dead processes
+    sigemptyset(&sa.sa_mask);
+    sa.sa_flags = SA_RESTART;
+    if (sigaction(SIGCHLD, &sa, NULL) == -1) {
+        fprintf(stderr,"sigaction");
+        exit(1);
     }
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wmissing-noreturn"
-    while(true){
-        struct sockaddr_storage client_addr;
-        socklen_t c_addr_size = sizeof(client_addr);
-        int client = accept(s, (struct sockaddr*) &client_addr, &c_addr_size);
-        fprintf(stderr, "%s\n", "Client accepted!");
+    Struct lenNlines = countlines(argv[2]);
+    ssize_t doclen = lenNlines.doclen;
+    int linecounter = lenNlines.lines;
 
-        struct quote* q = choose_rnd_quote(quotes, count);
+    while(1) {  // main accept() loop
+        char* buffer = getrandomline(argv[2], linecounter, doclen);
+        size_t len = strlen(buffer);
 
-        if (q == NULL){
-            close(client);
+        sin_size = sizeof their_addr;
+        new_fd = accept(sockfd, (struct sockaddr *)&their_addr, &sin_size);
+        if (new_fd == -1) {
+            fprintf(stderr,"accept");
             continue;
         }
 
-        long nsent = 0;
+        inet_ntop(their_addr.ss_family,
+                  get_in_addr((struct sockaddr *)&their_addr),
+                  s, sizeof s);
 
-        while(nsent != q->len - 1){
-           int bytes = send(client, (q->content) + nsent, q->len - nsent - 1, 0);
-           if (bytes < 0){
-               fprintf(stderr, "Sending data failed!\n");
-               break;
-           }
-           nsent += bytes;
+        if (send(new_fd, buffer, len, 0) == -1) {
+            fprintf(stderr, "send");
+            close(new_fd);
+            free(buffer);
+            exit(0);
         }
-        close(client);
-
+        close(new_fd); // parent doesn't need this
+        free(buffer);
     }
-#pragma clang diagnostic pop
+}
 
-    freeaddrinfo(res);
-    return 0;
+char* getrandomline(char  * filename, int linecounter, ssize_t doclen){
+    FILE *fptr = fopen(filename, "r");
+    size_t buffer_size = 0;
+    char *buffer = NULL;
+
+    if (!fptr) {
+        perror ("File open error!\n");
+        exit(1);
+    }
+
+    //get random number
+    srand(time(0));
+    int randomnr = rand() % (linecounter + 1);
+
+    //get sentence from rnd line number
+    int index = 0;
+    ssize_t len = 0;
+    char *concatstring = calloc(doclen, sizeof(char));
+
+    while((len = getline(&buffer, &buffer_size, fptr)) > 0) {
+        if(index == randomnr) {
+            memcpy(concatstring, buffer, buffer_size);
+            while(!strchr(buffer,'\n')){
+                buffer = NULL;
+                len += getline(&buffer, &buffer_size, fptr);
+                snprintf(concatstring,doclen * sizeof (char), "%s",buffer);
+            }
+            break;
+        }
+        buffer = NULL;
+        index++;
+    }
+    free(buffer);
+
+    fclose(fptr);
+    char *buffer_no_lf = calloc(len,sizeof(char));
+    memcpy(buffer_no_lf, concatstring, len - 1);
+    buffer_no_lf[len - 1] = '\0';
+    free(concatstring);
+    return buffer_no_lf;
+}
+
+
+Struct countlines(char *filename) {
+    // count the number of lines in the file called filename
+    FILE *fp = fopen(filename,"r");
+    char *buffer = NULL;
+    size_t buffer_size = 0;
+
+    int lines=0;
+
+    if (fp == NULL){
+        perror("File open error or empty file\n");
+        exit(1);
+    }
+
+    lines++;
+    ssize_t doclen = 0;
+    ssize_t len = 0;
+    while((len = getline(&buffer, &buffer_size, fp)) > 0) {
+        doclen += len;
+        if(strchr(buffer, '\n')) {
+            lines++;
+        }
+        buffer = NULL;
+    }
+
+    fclose(fp);
+    free(buffer);
+
+    Struct s;
+    s.lines = lines;
+    s.doclen = doclen;
+
+    if( lines == 0){
+        perror("File is empty or no LF in file\n");
+        exit(1);
+    }
+    return s;
 }

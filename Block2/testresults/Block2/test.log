@@ -1,0 +1,43 @@
+.
+----------------------------------------------------------------------
+Ran 1 test in 3.412s
+
+OK
+....FFF
+======================================================================
+FAIL: test_long_quote (rnvs_tb.blocks.block2.QOTDServerTestCase)
+Test the servers handling of arbitrarily long quotes.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.6/dist-packages/rnvs_tb/common.py", line 32, in log_wrapper
+    return fun(*args, **kwargs)
+  File "/usr/local/lib/python3.6/dist-packages/rnvs_tb/blocks/block2.py", line 215, in test_long_quote
+    self.assertTrue(connected, msg='Client could not connect to server!')
+AssertionError: False is not true : Client could not connect to server!
+
+======================================================================
+FAIL: test_null_characters (rnvs_tb.blocks.block2.QOTDServerTestCase)
+Test the servers handling of special characters like a null byte.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.6/dist-packages/rnvs_tb/common.py", line 32, in log_wrapper
+    return fun(*args, **kwargs)
+  File "/usr/local/lib/python3.6/dist-packages/rnvs_tb/blocks/block2.py", line 165, in test_null_characters
+    self.assertTrue(connected, msg='Client could not connect to server!')
+AssertionError: False is not true : Client could not connect to server!
+
+======================================================================
+FAIL: test_one_line (rnvs_tb.blocks.block2.QOTDServerTestCase)
+Test the servers ability to serve a simple quote from a file, while accepting extra newline and null bytes.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.6/dist-packages/rnvs_tb/common.py", line 32, in log_wrapper
+    return fun(*args, **kwargs)
+  File "/usr/local/lib/python3.6/dist-packages/rnvs_tb/blocks/block2.py", line 105, in test_one_line
+    self.assertTrue(ready, msg=f'Server did not open port 17 within {self.startupTimeout} seconds after starting')
+AssertionError: False is not true : Server did not open port 17 within 3.0 seconds after starting
+
+----------------------------------------------------------------------
+Ran 7 tests in 25.877s
+
+FAILED (failures=3)

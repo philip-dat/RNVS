@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/tkn/Documents/DEVL/RNVS/Block2/server.c
+/home/tkn/Desktop/RNVS/RNVS/Block2/server.c
 stdio.h
 -
 stdlib.h
@@ -16,6 +16,8 @@ unistd.h
 errno.h
 -
 string.h
+-
+sys/types.h
 -
 sys/socket.h
 -
@@ -30,5 +32,7 @@ sys/wait.h
 signal.h
 -
 time.h
+-
+limits.h
 -
 

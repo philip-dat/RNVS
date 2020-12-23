@@ -1,0 +1,18 @@
+-- The C compiler identification is GNU 5.4.0
+-- Check for working C compiler: /usr/bin/cc
+-- Check for working C compiler: /usr/bin/cc -- works
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /mnt/src/build
+Scanning dependencies of target server
+[ 25%] Building C object CMakeFiles/server.dir/server.c.o
+[ 50%] Linking C executable server
+[ 50%] Built target server
+Scanning dependencies of target client
+[ 75%] Building C object CMakeFiles/client.dir/client.c.o
+[100%] Linking C executable client
+[100%] Built target client

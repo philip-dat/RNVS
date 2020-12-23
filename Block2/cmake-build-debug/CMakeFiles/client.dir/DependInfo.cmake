@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
-  "/home/tkn/Documents/DEVL/RNVS/Block2/client.c" "/home/tkn/Documents/DEVL/RNVS/Block2/cmake-build-debug/CMakeFiles/client.dir/client.c.o"
+  "/home/tkn/Desktop/RNVS/RNVS/Block2/client.c" "/home/tkn/Desktop/RNVS/RNVS/Block2/cmake-build-debug/CMakeFiles/client.dir/client.c.o"
   )
 set(CMAKE_C_COMPILER_ID "GNU")
 
