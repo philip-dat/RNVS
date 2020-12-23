@@ -34,13 +34,13 @@ int main(int argc, char** argv) {
 
     int s = -1;
     for(p = res; p != NULL;p = p->ai_next){
-        s = socket(res->ai_family, res->ai_socktype, res->ai_protocol);
+        s = socket(p->ai_family, p->ai_socktype, p->ai_protocol);
         if (s == -1){
             continue;
         }
 
 
-        status = connect(s, res->ai_addr, res->ai_addrlen);
+        status = connect(s, p->ai_addr, p->ai_addrlen);
         if (status != 0){
            fprintf(stderr, "%s\n", "connect() failed!");
            continue;

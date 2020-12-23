@@ -59,10 +59,10 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /snap/clion/135/bin/cmake/linux/bin/cmake
+CMAKE_COMMAND = /snap/clion/137/bin/cmake/linux/bin/cmake
 
 # The command to remove a file.
-RM = /snap/clion/135/bin/cmake/linux/bin/cmake -E rm -f
+RM = /snap/clion/137/bin/cmake/linux/bin/cmake -E rm -f
 
 # Escaping for special characters.
 EQUALS = =
@@ -79,7 +79,7 @@ CMAKE_BINARY_DIR = /home/tkn/Documents/DEVL/RNVS/Block2/cmake-build-debug
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/snap/clion/135/bin/cmake/linux/bin/cmake --regenerate-during-build -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	/snap/clion/137/bin/cmake/linux/bin/cmake --regenerate-during-build -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : rebuild_cache
 
 # Special rule for the target rebuild_cache
@@ -90,7 +90,7 @@ rebuild_cache/fast: rebuild_cache
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
-	/snap/clion/135/bin/cmake/linux/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+	/snap/clion/137/bin/cmake/linux/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -131,30 +131,30 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named server
+# Target rules for targets named Block2-server
 
 # Build rule for target.
-server: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 server
-.PHONY : server
+Block2-server: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 Block2-server
+.PHONY : Block2-server
 
 # fast build rule for target.
-server/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/build
-.PHONY : server/fast
+Block2-server/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Block2-server.dir/build.make CMakeFiles/Block2-server.dir/build
+.PHONY : Block2-server/fast
 
 #=============================================================================
-# Target rules for targets named client
+# Target rules for targets named Block2-client
 
 # Build rule for target.
-client: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 client
-.PHONY : client
+Block2-client: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 Block2-client
+.PHONY : Block2-client
 
 # fast build rule for target.
-client/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/client.dir/build.make CMakeFiles/client.dir/build
-.PHONY : client/fast
+Block2-client/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Block2-client.dir/build.make CMakeFiles/Block2-client.dir/build
+.PHONY : Block2-client/fast
 
 client.o: client.c.o
 
@@ -162,7 +162,7 @@ client.o: client.c.o
 
 # target to build an object file
 client.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/client.dir/build.make CMakeFiles/client.dir/client.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Block2-client.dir/build.make CMakeFiles/Block2-client.dir/client.c.o
 .PHONY : client.c.o
 
 client.i: client.c.i
@@ -171,7 +171,7 @@ client.i: client.c.i
 
 # target to preprocess a source file
 client.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/client.dir/build.make CMakeFiles/client.dir/client.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Block2-client.dir/build.make CMakeFiles/Block2-client.dir/client.c.i
 .PHONY : client.c.i
 
 client.s: client.c.s
@@ -180,7 +180,7 @@ client.s: client.c.s
 
 # target to generate assembly for a file
 client.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/client.dir/build.make CMakeFiles/client.dir/client.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Block2-client.dir/build.make CMakeFiles/Block2-client.dir/client.c.s
 .PHONY : client.c.s
 
 server.o: server.c.o
@@ -189,7 +189,7 @@ server.o: server.c.o
 
 # target to build an object file
 server.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/server.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Block2-server.dir/build.make CMakeFiles/Block2-server.dir/server.c.o
 .PHONY : server.c.o
 
 server.i: server.c.i
@@ -198,7 +198,7 @@ server.i: server.c.i
 
 # target to preprocess a source file
 server.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/server.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Block2-server.dir/build.make CMakeFiles/Block2-server.dir/server.c.i
 .PHONY : server.c.i
 
 server.s: server.c.s
@@ -207,7 +207,7 @@ server.s: server.c.s
 
 # target to generate assembly for a file
 server.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/server.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Block2-server.dir/build.make CMakeFiles/Block2-server.dir/server.c.s
 .PHONY : server.c.s
 
 # Help Target
@@ -218,8 +218,8 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... client"
-	@echo "... server"
+	@echo "... Block2-client"
+	@echo "... Block2-server"
 	@echo "... client.o"
 	@echo "... client.i"
 	@echo "... client.s"

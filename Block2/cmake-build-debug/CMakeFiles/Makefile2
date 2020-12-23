@@ -55,10 +55,10 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /snap/clion/135/bin/cmake/linux/bin/cmake
+CMAKE_COMMAND = /snap/clion/137/bin/cmake/linux/bin/cmake
 
 # The command to remove a file.
-RM = /snap/clion/135/bin/cmake/linux/bin/cmake -E rm -f
+RM = /snap/clion/137/bin/cmake/linux/bin/cmake -E rm -f
 
 # Escaping for special characters.
 EQUALS = =
@@ -73,8 +73,8 @@ CMAKE_BINARY_DIR = /home/tkn/Documents/DEVL/RNVS/Block2/cmake-build-debug
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
-all: CMakeFiles/server.dir/all
-all: CMakeFiles/client.dir/all
+all: CMakeFiles/Block2-server.dir/all
+all: CMakeFiles/Block2-client.dir/all
 
 .PHONY : all
 
@@ -84,64 +84,64 @@ preinstall:
 .PHONY : preinstall
 
 # The main recursive "clean" target.
-clean: CMakeFiles/server.dir/clean
-clean: CMakeFiles/client.dir/clean
+clean: CMakeFiles/Block2-server.dir/clean
+clean: CMakeFiles/Block2-client.dir/clean
 
 .PHONY : clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/server.dir
+# Target rules for target CMakeFiles/Block2-server.dir
 
 # All Build rule for target.
-CMakeFiles/server.dir/all:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/tkn/Documents/DEVL/RNVS/Block2/cmake-build-debug/CMakeFiles --progress-num=3,4 "Built target server"
-.PHONY : CMakeFiles/server.dir/all
+CMakeFiles/Block2-server.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Block2-server.dir/build.make CMakeFiles/Block2-server.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Block2-server.dir/build.make CMakeFiles/Block2-server.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/tkn/Documents/DEVL/RNVS/Block2/cmake-build-debug/CMakeFiles --progress-num=3,4 "Built target Block2-server"
+.PHONY : CMakeFiles/Block2-server.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/server.dir/rule: cmake_check_build_system
+CMakeFiles/Block2-server.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/tkn/Documents/DEVL/RNVS/Block2/cmake-build-debug/CMakeFiles 2
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/server.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/Block2-server.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/tkn/Documents/DEVL/RNVS/Block2/cmake-build-debug/CMakeFiles 0
-.PHONY : CMakeFiles/server.dir/rule
+.PHONY : CMakeFiles/Block2-server.dir/rule
 
 # Convenience name for target.
-server: CMakeFiles/server.dir/rule
+Block2-server: CMakeFiles/Block2-server.dir/rule
 
-.PHONY : server
+.PHONY : Block2-server
 
 # clean rule for target.
-CMakeFiles/server.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/clean
-.PHONY : CMakeFiles/server.dir/clean
+CMakeFiles/Block2-server.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Block2-server.dir/build.make CMakeFiles/Block2-server.dir/clean
+.PHONY : CMakeFiles/Block2-server.dir/clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/client.dir
+# Target rules for target CMakeFiles/Block2-client.dir
 
 # All Build rule for target.
-CMakeFiles/client.dir/all:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/client.dir/build.make CMakeFiles/client.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/client.dir/build.make CMakeFiles/client.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/tkn/Documents/DEVL/RNVS/Block2/cmake-build-debug/CMakeFiles --progress-num=1,2 "Built target client"
-.PHONY : CMakeFiles/client.dir/all
+CMakeFiles/Block2-client.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Block2-client.dir/build.make CMakeFiles/Block2-client.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Block2-client.dir/build.make CMakeFiles/Block2-client.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/tkn/Documents/DEVL/RNVS/Block2/cmake-build-debug/CMakeFiles --progress-num=1,2 "Built target Block2-client"
+.PHONY : CMakeFiles/Block2-client.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/client.dir/rule: cmake_check_build_system
+CMakeFiles/Block2-client.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/tkn/Documents/DEVL/RNVS/Block2/cmake-build-debug/CMakeFiles 2
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/client.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/Block2-client.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/tkn/Documents/DEVL/RNVS/Block2/cmake-build-debug/CMakeFiles 0
-.PHONY : CMakeFiles/client.dir/rule
+.PHONY : CMakeFiles/Block2-client.dir/rule
 
 # Convenience name for target.
-client: CMakeFiles/client.dir/rule
+Block2-client: CMakeFiles/Block2-client.dir/rule
 
-.PHONY : client
+.PHONY : Block2-client
 
 # clean rule for target.
-CMakeFiles/client.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/client.dir/build.make CMakeFiles/client.dir/clean
-.PHONY : CMakeFiles/client.dir/clean
+CMakeFiles/Block2-client.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Block2-client.dir/build.make CMakeFiles/Block2-client.dir/clean
+.PHONY : CMakeFiles/Block2-client.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

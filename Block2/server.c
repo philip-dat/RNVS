@@ -14,63 +14,75 @@ struct quote {
 };
 
 struct quote* get_quotes(char* path, int* num){
+    //öffnen der Datei im Pfad (Argument), öffnen im read modus
     FILE* f = fopen(path, "r");
-
+    //wenn das Öffnen der Datei gescheitert ist, dann returne null
     if (f == NULL) {
         fprintf(stderr, "Failed to open file %s\n!", path);
         return NULL;
     }
-
+    // erstelle structs für linkedlist. mit start/head quotes
     struct quote* quotes = NULL;
+    // und zeiger cur
     struct quote* cur = quotes;
     (*num) = 0;
 
     ssize_t n = 0;
+    // schleife bis getline Fehler ausgibt (n < 0) getline fertig ist (n == 0) oder die line nicht auf einem '\n' endet
     while(true){
+        // getline alloziert speicher für line und len selbst, falls auf NULL und 0 gesetzt
         char* line = NULL;
         size_t  len = 0;
         n = getline(&line, &len, f);
-
+        // Fehler oder fertig mit der Datei/ oder Datei leer (n == -1)
         if (n <= 0){
             free(line);
             break;
         }
-
+        // datei endet nicht mit LF
         if (line[n-1] != '\n'){
             free(line);
             break;
         }
-
+        // erstellen eines neuen Elementes für die LinkedList
         struct quote* new_quote = (struct quote*) malloc(sizeof(struct quote));
         new_quote->content = line;
         new_quote->len = n;
         new_quote->next = NULL;
-
+        // inkrementieren des line counters (inkrementiert den value)
         (*num)++;
-
+        // erstellen des Headers
         if (quotes == NULL){
+            // setzen des headers
             quotes = new_quote;
+            // setzen des zeigers
             cur = new_quote;
-        } else {
+        } else { // erstellen des nächsten Element in linkedlist
             cur->next = new_quote;
             cur = new_quote;
         }
 
     }
+    // wir schließen die file nie
 
+    // return linkedlist quotes
     return quotes;
 }
-
+// parameter linkedlist quotes, und anzahl lines
 struct quote* choose_rnd_quote(struct quote* quotes, int len){
+    // wähle random index (etwas modulo etwas ist immer kleiner als len)
     long index = (random()) % len;
+    // zeiger für linkedlist
     struct quote* q;
+    // index zeiger
     int i;
     for (q = quotes, i=0; q != NULL; q=q->next, i++){
+        // wenn zeiger index auf random index returne zeile
        if (i == index){
             return q;
        }
     }
-
+    // wenn quotes leer return NULL
     return NULL;
 }
 
