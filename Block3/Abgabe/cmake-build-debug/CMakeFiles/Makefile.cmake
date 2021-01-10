@@ -35,6 +35,7 @@ set(CMAKE_MAKEFILE_DEPENDS
   "/snap/clion/138/bin/cmake/linux/share/cmake-3.17/Modules/CMakeSystemSpecificInitialize.cmake"
   "/snap/clion/138/bin/cmake/linux/share/cmake-3.17/Modules/CMakeTestCCompiler.cmake"
   "/snap/clion/138/bin/cmake/linux/share/cmake-3.17/Modules/CMakeTestCompilerCommon.cmake"
+  "/snap/clion/138/bin/cmake/linux/share/cmake-3.17/Modules/CMakeUnixFindMake.cmake"
   "/snap/clion/138/bin/cmake/linux/share/cmake-3.17/Modules/Compiler/ADSP-DetermineCompiler.cmake"
   "/snap/clion/138/bin/cmake/linux/share/cmake-3.17/Modules/Compiler/ARMCC-DetermineCompiler.cmake"
   "/snap/clion/138/bin/cmake/linux/share/cmake-3.17/Modules/Compiler/ARMClang-DetermineCompiler.cmake"
@@ -97,6 +98,6 @@ set(CMAKE_MAKEFILE_PRODUCTS
 
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
-  "CMakeFiles/Block2-server.dir/DependInfo.cmake"
-  "CMakeFiles/Block2-client.dir/DependInfo.cmake"
+  "CMakeFiles/server.dir/DependInfo.cmake"
+  "CMakeFiles/client.dir/DependInfo.cmake"
   )
