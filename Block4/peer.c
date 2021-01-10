@@ -342,13 +342,13 @@ int main(int argc, char *argv[]) {
 
         for (int incoming_fd = 0; incoming_fd <= fdmax; incoming_fd++) {
             if (FD_ISSET(incoming_fd, &read_fds))
-            {
+            /*{
                 passingval *val = malloc(sizeof(passingval));
                 set_val(val, incoming_fd, self, next, prev, master, client_requests, hash_table);
                 worker((&fdmax), listener, (&newfd), remoteaddr, val);
                 free(val);
-            }
-           /*{ // we got one!!
+            }*/
+           { // we got one!!
                 if (incoming_fd == listener) {
                     // handle new connections
                     addrlen = sizeof remoteaddr;
@@ -472,10 +472,22 @@ int main(int argc, char *argv[]) {
                                 } else {
                                     fprintf(stderr, "Unknown operation");
                                 }
-                                int sent = send_message(reply, incoming_fd);
+                                send_message(reply, incoming_fd);
                                 free_message(reply);
 
-                            } else {
+                            } else if(in_Range(hash, self->ID + 1, next->ID)) {
+                                int nextfd;
+                                server_send_connection(next, &nextfd);
+                                send_message(recv_msg, nextfd);
+                                //blocking wait for reply
+                                message *reply_msg = receive_message(nextfd, 1);
+                                close(nextfd);
+                                send_message(reply_msg, incoming_fd);
+
+                            }
+
+
+                                else {
                                 // I am not resposnsible but look for the one who is
                                 //Store received message in local hash table
                                 add_client_request(hash, incoming_fd, recv_msg, &client_requests);
@@ -497,7 +509,7 @@ int main(int argc, char *argv[]) {
                         }
                     }
                 }
-            }*/
+            }
         }
     }
     free_peer(self);

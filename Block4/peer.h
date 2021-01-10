@@ -1,6 +1,4 @@
-//
-// Created by Mai Duong on 2019-11-19.
-//
+
 
 #ifndef BLOCK_3_PEER_H
 #define BLOCK_3_PEER_H
@@ -150,7 +148,7 @@ uint16_t hash_key(char* input)
 }
 
 int in_Range(int hash, int start, int end) {
-    if(hash <= end && hash >= start) {
+    if(hash <= end && hash > start || (hash <= end && hash >= 0) || (hash > start && hash <= 65536) ) {
         return 1;
     }
     return 0;

@@ -25,7 +25,7 @@ int main(int argc, char* argv[]) {
     message *msg = message_template();
     set_message(key, operation, msg);
 
-    fwrite(msg->value, 1, msg->head->value_length, stdout);
+    // fwrite(msg->value, 1, msg->head->value_length, stdout);
 
     memset(&hints, 0, sizeof hints); // make sure the struct is empty
     hints.ai_family = AF_UNSPEC;     // don't care IPv4 or IPv6
