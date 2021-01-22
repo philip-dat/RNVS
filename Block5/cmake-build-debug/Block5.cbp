@@ -37,8 +37,8 @@
 					<DistClean command="/usr/bin/make -f &quot;/home/tkn/Documents/DEVL/RNVS/Block5/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
-			<Target title="Block5">
-				<Option output="/home/tkn/Documents/DEVL/RNVS/Block5/cmake-build-debug/Block5" prefix_auto="0" extension_auto="0"/>
+			<Target title="ntpclient">
+				<Option output="/home/tkn/Documents/DEVL/RNVS/Block5/cmake-build-debug/ntpclient" prefix_auto="0" extension_auto="0"/>
 				<Option working_dir="/home/tkn/Documents/DEVL/RNVS/Block5/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
@@ -51,14 +51,14 @@
 					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -f &quot;/home/tkn/Documents/DEVL/RNVS/Block5/cmake-build-debug/Makefile&quot;  VERBOSE=1 Block5"/>
+					<Build command="/usr/bin/make -f &quot;/home/tkn/Documents/DEVL/RNVS/Block5/cmake-build-debug/Makefile&quot;  VERBOSE=1 ntpclient"/>
 					<CompileFile command="/usr/bin/make -f &quot;/home/tkn/Documents/DEVL/RNVS/Block5/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
 					<Clean command="/usr/bin/make -f &quot;/home/tkn/Documents/DEVL/RNVS/Block5/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 					<DistClean command="/usr/bin/make -f &quot;/home/tkn/Documents/DEVL/RNVS/Block5/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
-			<Target title="Block5/fast">
-				<Option output="/home/tkn/Documents/DEVL/RNVS/Block5/cmake-build-debug/Block5" prefix_auto="0" extension_auto="0"/>
+			<Target title="ntpclient/fast">
+				<Option output="/home/tkn/Documents/DEVL/RNVS/Block5/cmake-build-debug/ntpclient" prefix_auto="0" extension_auto="0"/>
 				<Option working_dir="/home/tkn/Documents/DEVL/RNVS/Block5/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
@@ -71,33 +71,24 @@
 					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -f &quot;/home/tkn/Documents/DEVL/RNVS/Block5/cmake-build-debug/Makefile&quot;  VERBOSE=1 Block5/fast"/>
+					<Build command="/usr/bin/make -f &quot;/home/tkn/Documents/DEVL/RNVS/Block5/cmake-build-debug/Makefile&quot;  VERBOSE=1 ntpclient/fast"/>
 					<CompileFile command="/usr/bin/make -f &quot;/home/tkn/Documents/DEVL/RNVS/Block5/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
 					<Clean command="/usr/bin/make -f &quot;/home/tkn/Documents/DEVL/RNVS/Block5/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 					<DistClean command="/usr/bin/make -f &quot;/home/tkn/Documents/DEVL/RNVS/Block5/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/home/tkn/Documents/DEVL/RNVS/Block5/communication.c">
-			<Option target="Block5"/>
-		</Unit>
-		<Unit filename="/home/tkn/Documents/DEVL/RNVS/Block5/communication.h">
-			<Option target="Block5"/>
-		</Unit>
-		<Unit filename="/home/tkn/Documents/DEVL/RNVS/Block5/ntpcalculations.c">
-			<Option target="Block5"/>
-		</Unit>
-		<Unit filename="/home/tkn/Documents/DEVL/RNVS/Block5/ntpcalculations.h">
-			<Option target="Block5"/>
-		</Unit>
 		<Unit filename="/home/tkn/Documents/DEVL/RNVS/Block5/ntpclient.c">
-			<Option target="Block5"/>
+			<Option target="ntpclient"/>
 		</Unit>
-		<Unit filename="/home/tkn/Documents/DEVL/RNVS/Block5/ntplogic.c">
-			<Option target="Block5"/>
+		<Unit filename="/home/tkn/Documents/DEVL/RNVS/Block5/src/communication.c">
+			<Option target="ntpclient"/>
 		</Unit>
-		<Unit filename="/home/tkn/Documents/DEVL/RNVS/Block5/ntplogic.h">
-			<Option target="Block5"/>
+		<Unit filename="/home/tkn/Documents/DEVL/RNVS/Block5/src/ntpcalculations.c">
+			<Option target="ntpclient"/>
+		</Unit>
+		<Unit filename="/home/tkn/Documents/DEVL/RNVS/Block5/src/ntplogic.c">
+			<Option target="ntpclient"/>
 		</Unit>
 		<Unit filename="/home/tkn/Documents/DEVL/RNVS/Block5/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>

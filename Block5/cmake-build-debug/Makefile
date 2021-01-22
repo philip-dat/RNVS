@@ -131,71 +131,17 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named Block5
+# Target rules for targets named ntpclient
 
 # Build rule for target.
-Block5: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 Block5
-.PHONY : Block5
+ntpclient: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 ntpclient
+.PHONY : ntpclient
 
 # fast build rule for target.
-Block5/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Block5.dir/build.make CMakeFiles/Block5.dir/build
-.PHONY : Block5/fast
-
-communication.o: communication.c.o
-
-.PHONY : communication.o
-
-# target to build an object file
-communication.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Block5.dir/build.make CMakeFiles/Block5.dir/communication.c.o
-.PHONY : communication.c.o
-
-communication.i: communication.c.i
-
-.PHONY : communication.i
-
-# target to preprocess a source file
-communication.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Block5.dir/build.make CMakeFiles/Block5.dir/communication.c.i
-.PHONY : communication.c.i
-
-communication.s: communication.c.s
-
-.PHONY : communication.s
-
-# target to generate assembly for a file
-communication.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Block5.dir/build.make CMakeFiles/Block5.dir/communication.c.s
-.PHONY : communication.c.s
-
-ntpcalculations.o: ntpcalculations.c.o
-
-.PHONY : ntpcalculations.o
-
-# target to build an object file
-ntpcalculations.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Block5.dir/build.make CMakeFiles/Block5.dir/ntpcalculations.c.o
-.PHONY : ntpcalculations.c.o
-
-ntpcalculations.i: ntpcalculations.c.i
-
-.PHONY : ntpcalculations.i
-
-# target to preprocess a source file
-ntpcalculations.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Block5.dir/build.make CMakeFiles/Block5.dir/ntpcalculations.c.i
-.PHONY : ntpcalculations.c.i
-
-ntpcalculations.s: ntpcalculations.c.s
-
-.PHONY : ntpcalculations.s
-
-# target to generate assembly for a file
-ntpcalculations.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Block5.dir/build.make CMakeFiles/Block5.dir/ntpcalculations.c.s
-.PHONY : ntpcalculations.c.s
+ntpclient/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ntpclient.dir/build.make CMakeFiles/ntpclient.dir/build
+.PHONY : ntpclient/fast
 
 ntpclient.o: ntpclient.c.o
 
@@ -203,7 +149,7 @@ ntpclient.o: ntpclient.c.o
 
 # target to build an object file
 ntpclient.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Block5.dir/build.make CMakeFiles/Block5.dir/ntpclient.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ntpclient.dir/build.make CMakeFiles/ntpclient.dir/ntpclient.c.o
 .PHONY : ntpclient.c.o
 
 ntpclient.i: ntpclient.c.i
@@ -212,7 +158,7 @@ ntpclient.i: ntpclient.c.i
 
 # target to preprocess a source file
 ntpclient.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Block5.dir/build.make CMakeFiles/Block5.dir/ntpclient.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ntpclient.dir/build.make CMakeFiles/ntpclient.dir/ntpclient.c.i
 .PHONY : ntpclient.c.i
 
 ntpclient.s: ntpclient.c.s
@@ -221,35 +167,89 @@ ntpclient.s: ntpclient.c.s
 
 # target to generate assembly for a file
 ntpclient.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Block5.dir/build.make CMakeFiles/Block5.dir/ntpclient.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ntpclient.dir/build.make CMakeFiles/ntpclient.dir/ntpclient.c.s
 .PHONY : ntpclient.c.s
 
-ntplogic.o: ntplogic.c.o
+src/communication.o: src/communication.c.o
 
-.PHONY : ntplogic.o
+.PHONY : src/communication.o
 
 # target to build an object file
-ntplogic.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Block5.dir/build.make CMakeFiles/Block5.dir/ntplogic.c.o
-.PHONY : ntplogic.c.o
+src/communication.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ntpclient.dir/build.make CMakeFiles/ntpclient.dir/src/communication.c.o
+.PHONY : src/communication.c.o
 
-ntplogic.i: ntplogic.c.i
+src/communication.i: src/communication.c.i
 
-.PHONY : ntplogic.i
+.PHONY : src/communication.i
 
 # target to preprocess a source file
-ntplogic.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Block5.dir/build.make CMakeFiles/Block5.dir/ntplogic.c.i
-.PHONY : ntplogic.c.i
+src/communication.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ntpclient.dir/build.make CMakeFiles/ntpclient.dir/src/communication.c.i
+.PHONY : src/communication.c.i
 
-ntplogic.s: ntplogic.c.s
+src/communication.s: src/communication.c.s
 
-.PHONY : ntplogic.s
+.PHONY : src/communication.s
 
 # target to generate assembly for a file
-ntplogic.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Block5.dir/build.make CMakeFiles/Block5.dir/ntplogic.c.s
-.PHONY : ntplogic.c.s
+src/communication.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ntpclient.dir/build.make CMakeFiles/ntpclient.dir/src/communication.c.s
+.PHONY : src/communication.c.s
+
+src/ntpcalculations.o: src/ntpcalculations.c.o
+
+.PHONY : src/ntpcalculations.o
+
+# target to build an object file
+src/ntpcalculations.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ntpclient.dir/build.make CMakeFiles/ntpclient.dir/src/ntpcalculations.c.o
+.PHONY : src/ntpcalculations.c.o
+
+src/ntpcalculations.i: src/ntpcalculations.c.i
+
+.PHONY : src/ntpcalculations.i
+
+# target to preprocess a source file
+src/ntpcalculations.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ntpclient.dir/build.make CMakeFiles/ntpclient.dir/src/ntpcalculations.c.i
+.PHONY : src/ntpcalculations.c.i
+
+src/ntpcalculations.s: src/ntpcalculations.c.s
+
+.PHONY : src/ntpcalculations.s
+
+# target to generate assembly for a file
+src/ntpcalculations.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ntpclient.dir/build.make CMakeFiles/ntpclient.dir/src/ntpcalculations.c.s
+.PHONY : src/ntpcalculations.c.s
+
+src/ntplogic.o: src/ntplogic.c.o
+
+.PHONY : src/ntplogic.o
+
+# target to build an object file
+src/ntplogic.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ntpclient.dir/build.make CMakeFiles/ntpclient.dir/src/ntplogic.c.o
+.PHONY : src/ntplogic.c.o
+
+src/ntplogic.i: src/ntplogic.c.i
+
+.PHONY : src/ntplogic.i
+
+# target to preprocess a source file
+src/ntplogic.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ntpclient.dir/build.make CMakeFiles/ntpclient.dir/src/ntplogic.c.i
+.PHONY : src/ntplogic.c.i
+
+src/ntplogic.s: src/ntplogic.c.s
+
+.PHONY : src/ntplogic.s
+
+# target to generate assembly for a file
+src/ntplogic.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ntpclient.dir/build.make CMakeFiles/ntpclient.dir/src/ntplogic.c.s
+.PHONY : src/ntplogic.c.s
 
 # Help Target
 help:
@@ -259,19 +259,19 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... Block5"
-	@echo "... communication.o"
-	@echo "... communication.i"
-	@echo "... communication.s"
-	@echo "... ntpcalculations.o"
-	@echo "... ntpcalculations.i"
-	@echo "... ntpcalculations.s"
+	@echo "... ntpclient"
 	@echo "... ntpclient.o"
 	@echo "... ntpclient.i"
 	@echo "... ntpclient.s"
-	@echo "... ntplogic.o"
-	@echo "... ntplogic.i"
-	@echo "... ntplogic.s"
+	@echo "... src/communication.o"
+	@echo "... src/communication.i"
+	@echo "... src/communication.s"
+	@echo "... src/ntpcalculations.o"
+	@echo "... src/ntpcalculations.i"
+	@echo "... src/ntpcalculations.s"
+	@echo "... src/ntplogic.o"
+	@echo "... src/ntplogic.i"
+	@echo "... src/ntplogic.s"
 .PHONY : help
 
 

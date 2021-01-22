@@ -6,9 +6,7 @@
 #include <netdb.h>
 #include <sys/socket.h>
 
-#include "ntpcalculations.c"
-#include "communication.c"
-#include "ntplogic.h"
+#include "inc/ntplogic.h"
 
 int main(int argc, char* argv[]) {
 
@@ -21,59 +19,40 @@ int main(int argc, char* argv[]) {
     int n = atoi(argv[1]);
 
     int nserver = argc-2;
-    char *ntp_server[nserver];
+    char *ntp_list[nserver];
     char *port = "123";
     //timespec dispersion[NUM];
 
     // fill serverarray with values
     for (int i = 2; i < argc ; ++i) {
-        ntp_server[i - 2] = argv[i];
+        ntp_list[i - 2] = argv[i];
+    }
+
+    int sockfd;
+    // Creating socket file descriptor
+    if ((sockfd = socket(AF_INET, SOCK_DGRAM, 0)) < 0) {
+        perror("socket");
+        exit(EXIT_FAILURE);
     }
 
     for(int server_index = 0; server_index < nserver; server_index++){
+        struct addrinfo hints = {0};
+        hints.ai_family       = AF_INET;
+        hints.ai_socktype     = SOCK_DGRAM;
 
-        // parse command line arguments
+        struct addrinfo *ntp_server;
+
         int status;
-        struct addrinfo *servinfo, hints, *p;
-        socklen_t addrlen = sizeof(struct sockaddr_storage);
-
-        memset(&hints, 0, sizeof hints); // make sure the struct is empty
-        hints.ai_family = AF_UNSPEC;     // don't care IPv4 or IPv6
-        hints.ai_socktype = SOCK_STREAM; // TCP stream sockets
-        //hints.ai_flags = AI_PASSIVE;     // fill in my IP for me
-
-        //get address info
-        if ((status = getaddrinfo(ntp_server[server_index], port, &hints, &servinfo)) != 0) {
-            fprintf(stderr, "getaddrinfo: %s\n", gai_strerror(status));
-            exit(1);
-        }
-
-        // loop through result and try to connect to the first possible
-        int socketfd;
-        for (p = servinfo; p!= NULL; p = p->ai_next) {
-            if ((socketfd = socket(p->ai_family, p->ai_socktype, p->ai_protocol)) == -1){
-                perror("Could not establish client socket");
-                continue;
-            }
-
-            if(connect(socketfd, p->ai_addr, p->ai_addrlen) == -1 ) {
-                close(socketfd);
-                perror("Client could not connect");
-                continue;
-            }
-            break;
-        }
-
-        if (p == NULL) {
-            fprintf(stderr, "client: failed to connect\n");
-            exit(1);
+        if ((status = getaddrinfo(ntp_list[server_index], port, &hints, &ntp_server)) != 0) {
+            fprintf(stderr, "getaddrinfo error: %s\n", gai_strerror(status));
+            exit(EXIT_FAILURE);
         }
 
         //logic
-        ntp_logic(n, ntp_server[server_index], socketfd, p, addrlen);
+        ntp_logic(n, ntp_list[server_index], sockfd, ntp_server);
 
-        freeaddrinfo(servinfo);
-        close(socketfd);
+        freeaddrinfo(ntp_server);
+        close(sockfd);
     }
 
     return 0;
