@@ -1,7 +1,10 @@
 file(REMOVE_RECURSE
   "Block5"
   "Block5.pdb"
-  "CMakeFiles/Block5.dir/main.c.o"
+  "CMakeFiles/Block5.dir/communication.c.o"
+  "CMakeFiles/Block5.dir/ntpcalculations.c.o"
+  "CMakeFiles/Block5.dir/ntpclient.c.o"
+  "CMakeFiles/Block5.dir/ntplogic.c.o"
 )
 
 # Per-language clean rules from dependency scanning.

@@ -1,1 +1,1 @@
-/usr/bin/cc -g   CMakeFiles/Block5.dir/main.c.o  -o Block5 
+/usr/bin/cc -g   CMakeFiles/Block5.dir/ntpclient.c.o CMakeFiles/Block5.dir/communication.c.o CMakeFiles/Block5.dir/ntpcalculations.c.o CMakeFiles/Block5.dir/ntplogic.c.o  -o Block5 

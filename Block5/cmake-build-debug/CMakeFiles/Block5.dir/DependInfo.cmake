@@ -4,7 +4,10 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
-  "/home/tkn/Documents/DEVL/RNVS/Block5/main.c" "/home/tkn/Documents/DEVL/RNVS/Block5/cmake-build-debug/CMakeFiles/Block5.dir/main.c.o"
+  "/home/tkn/Documents/DEVL/RNVS/Block5/communication.c" "/home/tkn/Documents/DEVL/RNVS/Block5/cmake-build-debug/CMakeFiles/Block5.dir/communication.c.o"
+  "/home/tkn/Documents/DEVL/RNVS/Block5/ntpcalculations.c" "/home/tkn/Documents/DEVL/RNVS/Block5/cmake-build-debug/CMakeFiles/Block5.dir/ntpcalculations.c.o"
+  "/home/tkn/Documents/DEVL/RNVS/Block5/ntpclient.c" "/home/tkn/Documents/DEVL/RNVS/Block5/cmake-build-debug/CMakeFiles/Block5.dir/ntpclient.c.o"
+  "/home/tkn/Documents/DEVL/RNVS/Block5/ntplogic.c" "/home/tkn/Documents/DEVL/RNVS/Block5/cmake-build-debug/CMakeFiles/Block5.dir/ntplogic.c.o"
   )
 set(CMAKE_C_COMPILER_ID "GNU")
 

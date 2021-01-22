@@ -78,7 +78,25 @@
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/home/tkn/Documents/DEVL/RNVS/Block5/main.c">
+		<Unit filename="/home/tkn/Documents/DEVL/RNVS/Block5/communication.c">
+			<Option target="Block5"/>
+		</Unit>
+		<Unit filename="/home/tkn/Documents/DEVL/RNVS/Block5/communication.h">
+			<Option target="Block5"/>
+		</Unit>
+		<Unit filename="/home/tkn/Documents/DEVL/RNVS/Block5/ntpcalculations.c">
+			<Option target="Block5"/>
+		</Unit>
+		<Unit filename="/home/tkn/Documents/DEVL/RNVS/Block5/ntpcalculations.h">
+			<Option target="Block5"/>
+		</Unit>
+		<Unit filename="/home/tkn/Documents/DEVL/RNVS/Block5/ntpclient.c">
+			<Option target="Block5"/>
+		</Unit>
+		<Unit filename="/home/tkn/Documents/DEVL/RNVS/Block5/ntplogic.c">
+			<Option target="Block5"/>
+		</Unit>
+		<Unit filename="/home/tkn/Documents/DEVL/RNVS/Block5/ntplogic.h">
 			<Option target="Block5"/>
 		</Unit>
 		<Unit filename="/home/tkn/Documents/DEVL/RNVS/Block5/CMakeLists.txt">

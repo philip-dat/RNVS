@@ -143,32 +143,113 @@ Block5/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Block5.dir/build.make CMakeFiles/Block5.dir/build
 .PHONY : Block5/fast
 
-main.o: main.c.o
+communication.o: communication.c.o
 
-.PHONY : main.o
+.PHONY : communication.o
 
 # target to build an object file
-main.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Block5.dir/build.make CMakeFiles/Block5.dir/main.c.o
-.PHONY : main.c.o
+communication.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Block5.dir/build.make CMakeFiles/Block5.dir/communication.c.o
+.PHONY : communication.c.o
 
-main.i: main.c.i
+communication.i: communication.c.i
 
-.PHONY : main.i
+.PHONY : communication.i
 
 # target to preprocess a source file
-main.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Block5.dir/build.make CMakeFiles/Block5.dir/main.c.i
-.PHONY : main.c.i
+communication.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Block5.dir/build.make CMakeFiles/Block5.dir/communication.c.i
+.PHONY : communication.c.i
 
-main.s: main.c.s
+communication.s: communication.c.s
 
-.PHONY : main.s
+.PHONY : communication.s
 
 # target to generate assembly for a file
-main.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Block5.dir/build.make CMakeFiles/Block5.dir/main.c.s
-.PHONY : main.c.s
+communication.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Block5.dir/build.make CMakeFiles/Block5.dir/communication.c.s
+.PHONY : communication.c.s
+
+ntpcalculations.o: ntpcalculations.c.o
+
+.PHONY : ntpcalculations.o
+
+# target to build an object file
+ntpcalculations.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Block5.dir/build.make CMakeFiles/Block5.dir/ntpcalculations.c.o
+.PHONY : ntpcalculations.c.o
+
+ntpcalculations.i: ntpcalculations.c.i
+
+.PHONY : ntpcalculations.i
+
+# target to preprocess a source file
+ntpcalculations.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Block5.dir/build.make CMakeFiles/Block5.dir/ntpcalculations.c.i
+.PHONY : ntpcalculations.c.i
+
+ntpcalculations.s: ntpcalculations.c.s
+
+.PHONY : ntpcalculations.s
+
+# target to generate assembly for a file
+ntpcalculations.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Block5.dir/build.make CMakeFiles/Block5.dir/ntpcalculations.c.s
+.PHONY : ntpcalculations.c.s
+
+ntpclient.o: ntpclient.c.o
+
+.PHONY : ntpclient.o
+
+# target to build an object file
+ntpclient.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Block5.dir/build.make CMakeFiles/Block5.dir/ntpclient.c.o
+.PHONY : ntpclient.c.o
+
+ntpclient.i: ntpclient.c.i
+
+.PHONY : ntpclient.i
+
+# target to preprocess a source file
+ntpclient.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Block5.dir/build.make CMakeFiles/Block5.dir/ntpclient.c.i
+.PHONY : ntpclient.c.i
+
+ntpclient.s: ntpclient.c.s
+
+.PHONY : ntpclient.s
+
+# target to generate assembly for a file
+ntpclient.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Block5.dir/build.make CMakeFiles/Block5.dir/ntpclient.c.s
+.PHONY : ntpclient.c.s
+
+ntplogic.o: ntplogic.c.o
+
+.PHONY : ntplogic.o
+
+# target to build an object file
+ntplogic.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Block5.dir/build.make CMakeFiles/Block5.dir/ntplogic.c.o
+.PHONY : ntplogic.c.o
+
+ntplogic.i: ntplogic.c.i
+
+.PHONY : ntplogic.i
+
+# target to preprocess a source file
+ntplogic.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Block5.dir/build.make CMakeFiles/Block5.dir/ntplogic.c.i
+.PHONY : ntplogic.c.i
+
+ntplogic.s: ntplogic.c.s
+
+.PHONY : ntplogic.s
+
+# target to generate assembly for a file
+ntplogic.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Block5.dir/build.make CMakeFiles/Block5.dir/ntplogic.c.s
+.PHONY : ntplogic.c.s
 
 # Help Target
 help:
@@ -179,9 +260,18 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... Block5"
-	@echo "... main.o"
-	@echo "... main.i"
-	@echo "... main.s"
+	@echo "... communication.o"
+	@echo "... communication.i"
+	@echo "... communication.s"
+	@echo "... ntpcalculations.o"
+	@echo "... ntpcalculations.i"
+	@echo "... ntpcalculations.s"
+	@echo "... ntpclient.o"
+	@echo "... ntpclient.i"
+	@echo "... ntpclient.s"
+	@echo "... ntplogic.o"
+	@echo "... ntplogic.i"
+	@echo "... ntplogic.s"
 .PHONY : help
 
 

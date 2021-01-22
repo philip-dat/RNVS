@@ -77,30 +77,75 @@ include CMakeFiles/Block5.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/Block5.dir/flags.make
 
-CMakeFiles/Block5.dir/main.c.o: CMakeFiles/Block5.dir/flags.make
-CMakeFiles/Block5.dir/main.c.o: ../main.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/tkn/Documents/DEVL/RNVS/Block5/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/Block5.dir/main.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/Block5.dir/main.c.o   -c /home/tkn/Documents/DEVL/RNVS/Block5/main.c
+CMakeFiles/Block5.dir/ntpclient.c.o: CMakeFiles/Block5.dir/flags.make
+CMakeFiles/Block5.dir/ntpclient.c.o: ../ntpclient.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/tkn/Documents/DEVL/RNVS/Block5/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/Block5.dir/ntpclient.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/Block5.dir/ntpclient.c.o   -c /home/tkn/Documents/DEVL/RNVS/Block5/ntpclient.c
 
-CMakeFiles/Block5.dir/main.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/Block5.dir/main.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/tkn/Documents/DEVL/RNVS/Block5/main.c > CMakeFiles/Block5.dir/main.c.i
+CMakeFiles/Block5.dir/ntpclient.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/Block5.dir/ntpclient.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/tkn/Documents/DEVL/RNVS/Block5/ntpclient.c > CMakeFiles/Block5.dir/ntpclient.c.i
 
-CMakeFiles/Block5.dir/main.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/Block5.dir/main.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/tkn/Documents/DEVL/RNVS/Block5/main.c -o CMakeFiles/Block5.dir/main.c.s
+CMakeFiles/Block5.dir/ntpclient.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/Block5.dir/ntpclient.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/tkn/Documents/DEVL/RNVS/Block5/ntpclient.c -o CMakeFiles/Block5.dir/ntpclient.c.s
+
+CMakeFiles/Block5.dir/communication.c.o: CMakeFiles/Block5.dir/flags.make
+CMakeFiles/Block5.dir/communication.c.o: ../communication.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/tkn/Documents/DEVL/RNVS/Block5/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/Block5.dir/communication.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/Block5.dir/communication.c.o   -c /home/tkn/Documents/DEVL/RNVS/Block5/communication.c
+
+CMakeFiles/Block5.dir/communication.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/Block5.dir/communication.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/tkn/Documents/DEVL/RNVS/Block5/communication.c > CMakeFiles/Block5.dir/communication.c.i
+
+CMakeFiles/Block5.dir/communication.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/Block5.dir/communication.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/tkn/Documents/DEVL/RNVS/Block5/communication.c -o CMakeFiles/Block5.dir/communication.c.s
+
+CMakeFiles/Block5.dir/ntpcalculations.c.o: CMakeFiles/Block5.dir/flags.make
+CMakeFiles/Block5.dir/ntpcalculations.c.o: ../ntpcalculations.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/tkn/Documents/DEVL/RNVS/Block5/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/Block5.dir/ntpcalculations.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/Block5.dir/ntpcalculations.c.o   -c /home/tkn/Documents/DEVL/RNVS/Block5/ntpcalculations.c
+
+CMakeFiles/Block5.dir/ntpcalculations.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/Block5.dir/ntpcalculations.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/tkn/Documents/DEVL/RNVS/Block5/ntpcalculations.c > CMakeFiles/Block5.dir/ntpcalculations.c.i
+
+CMakeFiles/Block5.dir/ntpcalculations.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/Block5.dir/ntpcalculations.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/tkn/Documents/DEVL/RNVS/Block5/ntpcalculations.c -o CMakeFiles/Block5.dir/ntpcalculations.c.s
+
+CMakeFiles/Block5.dir/ntplogic.c.o: CMakeFiles/Block5.dir/flags.make
+CMakeFiles/Block5.dir/ntplogic.c.o: ../ntplogic.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/tkn/Documents/DEVL/RNVS/Block5/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building C object CMakeFiles/Block5.dir/ntplogic.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/Block5.dir/ntplogic.c.o   -c /home/tkn/Documents/DEVL/RNVS/Block5/ntplogic.c
+
+CMakeFiles/Block5.dir/ntplogic.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/Block5.dir/ntplogic.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/tkn/Documents/DEVL/RNVS/Block5/ntplogic.c > CMakeFiles/Block5.dir/ntplogic.c.i
+
+CMakeFiles/Block5.dir/ntplogic.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/Block5.dir/ntplogic.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/tkn/Documents/DEVL/RNVS/Block5/ntplogic.c -o CMakeFiles/Block5.dir/ntplogic.c.s
 
 # Object files for target Block5
 Block5_OBJECTS = \
-"CMakeFiles/Block5.dir/main.c.o"
+"CMakeFiles/Block5.dir/ntpclient.c.o" \
+"CMakeFiles/Block5.dir/communication.c.o" \
+"CMakeFiles/Block5.dir/ntpcalculations.c.o" \
+"CMakeFiles/Block5.dir/ntplogic.c.o"
 
 # External object files for target Block5
 Block5_EXTERNAL_OBJECTS =
 
-Block5: CMakeFiles/Block5.dir/main.c.o
+Block5: CMakeFiles/Block5.dir/ntpclient.c.o
+Block5: CMakeFiles/Block5.dir/communication.c.o
+Block5: CMakeFiles/Block5.dir/ntpcalculations.c.o
+Block5: CMakeFiles/Block5.dir/ntplogic.c.o
 Block5: CMakeFiles/Block5.dir/build.make
 Block5: CMakeFiles/Block5.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/tkn/Documents/DEVL/RNVS/Block5/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking C executable Block5"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/tkn/Documents/DEVL/RNVS/Block5/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking C executable Block5"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/Block5.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
