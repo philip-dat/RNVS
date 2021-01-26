@@ -1,0 +1,3 @@
+/mnt/src/build/CMakeFiles/edit_cache.dir
+/mnt/src/build/CMakeFiles/rebuild_cache.dir
+/mnt/src/build/CMakeFiles/ntpclient.dir

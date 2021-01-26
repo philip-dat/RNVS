@@ -1,0 +1,163 @@
+\documentclass[a4paper,12pt]{scrartcl}
+
+\usepackage[utf8]{inputenc}
+\usepackage[ngerman]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{pdfpages}
+\usepackage{hyperref}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{amsmath}
+\usepackage{color}
+\pgfplotsset{compat=1.15}
+\pgfplotsset{select coords between index/.style 2 args={
+    x filter/.code={
+        \ifnum\coordindex < #1\def\pgfmathresult{}\fi
+        \ifnum\coordindex>#2\def\pgfmathresult{}\fi
+    }
+}}
+
+\title{Aufagbe 6}
+\author{Christina Luetjering, Jon Schnäcke, Philip Datchev}
+
+\begin{document}
+\maketitle
+
+Im Folgenden werden Offset, Delay und Root Dispersion einer Kommunikation zwischen einem Client und einem NTP-Server betrachtet.
+Dabei werden die folgenden Zeitpunkte genutzt:
+\begin{align*}
+T_1 &= \text{Der Client sendet eine Anfrage} \\
+T_2 &= \text{Der Server erhält die Anfrage} \\
+T_3 &= \text{Der Server schickt die Antwort} \\
+T_4 &= \text{Der Client erhält die Antwort}
+\end{align*}
+
+\section{Offset}
+
+
+
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[
+	width=14cm,
+	height=8cm,
+    xlabel={Anfragenr.},
+    ylabel={Offset in s},
+    legend style={at={(0.5,-0.25)},
+    anchor=north}    
+]
+
+\addplot [color=green]
+		table [col sep=semicolon, x index=1, y index=5, select coords between index={0}{98}]
+		{./plot/data.csv};
+		
+\addplot [color=blue]
+		table [col sep=semicolon, x index=1, y index=5, select coords between index={99}{198}]
+		{./plot/data.csv};
+		
+\addplot [color=red]
+		table [col sep=semicolon, x index=1, y index=5, select coords between index={199}{298}]
+		{./plot/data.csv};
+		
+\addplot [color=black]
+		table [col sep=semicolon, x index=1, y index=5, select coords between index={299}{399}]
+		{./plot/data.csv};
+
+\legend{\texttt{0.de.pool.ntp.org}, \texttt{1.de.pool.ntp.org}, \texttt{2.de.pool.ntp.org}, \texttt{3.de.pool.ntp.org}}
+\end{axis}
+\end{tikzpicture}
+\end{center}
+Der Offset wird berechnet durch:
+\begin{align*}
+\frac{(T_2 -T_1) + (T_3 -T_4)}{2}
+\end{align*}
+Er bezeichnet den durchschnittlichen gemessenen Unterschied zwischen der Referenzzeit, die der Server vorgibt und der Zeit, die der Client selber misst. Hier ist der Offset negativ, was bedeutet, dass die Uhren im System des Clients zu schnell gehen, denn die vom Client gemessene Zeit ist größer, als die Referenzzeit. Den betraglich niedrigsten Offset hat \texttt{0.de.pool.ntp.org}, woraus man schließen kann, dass dieser Server am nächsten an der Systemuhr war, also insgesamt betrachtet am ungenauesten.
+
+\section{Delay}
+
+
+
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[
+	width=14cm,
+	height=8cm,
+    xlabel={Anfragenr.},
+    ylabel={Delay in s},
+    legend style={at={(0.5,-0.25)},
+    anchor=north}    
+]
+
+\addplot [color=green]
+		table [col sep=semicolon, x index=1, y index=4, select coords between index={0}{98}]
+		{./plot/data.csv};
+		
+\addplot [color=blue]
+		table [col sep=semicolon, x index=1, y index=4, select coords between index={99}{198}]
+		{./plot/data.csv};
+		
+\addplot [color=red]
+		table [col sep=semicolon, x index=1, y index=4, select coords between index={199}{298}]
+		{./plot/data.csv};
+		
+\addplot [color=black]
+		table [col sep=semicolon, x index=1, y index=4, select coords between index={299}{399}]
+		{./plot/data.csv};
+		
+\legend{\texttt{0.de.pool.ntp.org}, \texttt{1.de.pool.ntp.org}, \texttt{2.de.pool.ntp.org}, \texttt{3.de.pool.ntp.org}}
+\end{axis}
+\end{tikzpicture}
+\end{center}
+Der Delay berechnet sich wiefolgt:
+\begin{align*}
+\frac{(T_4 - T_1) - (T_3 -T_2)}{2}
+\end{align*}
+Er bezeichnet die durchschnittliche Zeit, die eine Nachricht benötigt, um vom Client zum Server bzw. vom Server zum Client zu kommen. Er ist somit ein Indikator für die Geschwindigkeit und damit die Qualität der Verbindung zwischen Server und Cient. Da eine Verbindung nie konstante Qualität hat, sondern immer wieder durch verschiedenste Faktoren beeinflusst wird, sind die Graphen sehr sprunghaft. In unserem Fall hatte der Client augenscheinlich die schlechteste Verbindung zum Server \texttt{1.de.pool.ntp.org}, da sich dieser Graph durchschnittlich am höchsten befindet.
+
+\section*{Root Dispersion}
+
+
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[
+	width=14cm,
+	height=8cm,
+    xlabel={Anfragenr.},
+    ylabel={Root Dispersion in s},
+    legend style={at={(0.5,-0.25)},
+    anchor=north}    
+]
+
+\addplot [color=green]
+		table [col sep=semicolon, x index=1, y index=2, select coords between index={0}{98}]
+		{./plot/data.csv};
+		
+\addplot [color=blue]
+		table [col sep=semicolon, x index=1, y index=2, select coords between index={99}{198}]
+		{./plot/data.csv};
+		
+\addplot [color=red]
+		table [col sep=semicolon, x index=1, y index=2, select coords between index={199}{298}]
+		{./plot/data.csv};
+		
+\addplot [color=black]
+		table [col sep=semicolon, x index=1, y index=2, select coords between index={299}{399}]
+		{./plot/data.csv};
+		
+		
+\legend{\texttt{0.de.pool.ntp.org}, \texttt{1.de.pool.ntp.org}, \texttt{2.de.pool.ntp.org}, \texttt{3.de.pool.ntp.org}}
+\end{axis}
+\end{tikzpicture}
+\end{center}
+Die Root Dispersion bezeichnet den größten Fehler relativ zur Referenz, einer Stratum-0-Uhr. Man kann erkennen, dass beim Server \texttt{3.de.pool.ntp.org} dieser Fehler durchgängig nahezu bei 0 liegt, was darauf schließen lässt, dass es sich hierbei um einen Stratum-1-Server handelt. Sowohl  \texttt{1.de.pool.ntp.org}, als auch \texttt{2.de.pool.ntp.org} haben anfangs einen relativ großen Fehler, der Graph hat jedoch bei beiden einen starken Knick nach unten, bevor er wieder stetig schwach ansteigt. Das lässt darauf schließen, dass sie in der Hierarchie der Stratum-Server weiter unten sind und sich während die 100 Anfragen gesendet wurden, mit einem Server, der höher in der Hierarchie ist, synchronisiert haben.
+
+
+
+
+
+
+
+
+
+\end{document}

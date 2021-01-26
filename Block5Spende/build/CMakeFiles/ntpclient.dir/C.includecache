@@ -1,0 +1,30 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/mnt/src/main.c
+stdio.h
+-
+stdint.h
+-
+stdlib.h
+-
+string.h
+-
+netinet/in.h
+-
+netdb.h
+-
+sys/socket.h
+-
+bits/time.h
+-
+time.h
+-
+unistd.h
+-
+
